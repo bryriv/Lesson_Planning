@@ -1,5 +1,5 @@
-Lesson_Planning
-===============
+### Lesson Planning Management Tool
+
 
 Web app to serve several goals.
 - Provide easy process to generate and manage daily lesson plans
