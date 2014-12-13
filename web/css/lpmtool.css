@@ -1,0 +1,19 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+}
+
+.navbar {
+    height: 30px;
+    min-height: inherit;
+}
+.navbar-nav > li > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.navbar-brand {
+    padding:5px 0 0 0;
+    margin-right: 40px;
+}
