@@ -1,0 +1,24 @@
+<div>
+    <h4>New Lesson Plan</h4>
+    <form role="form">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="plan_d">Plan Date</label>
+                <p class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="plan_d" is-open="opened" min-date="'2013-12-30'" max-date="'2020-12-30'" date-disabled="disabled(date, mode)" ng-required="true" datepicker-options="dateOptions" close-text="Close" />
+                    <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="tek">TEK</label>
+                <p class="input-group">
+                    <select ng-model='tek_id'>
+                        <option 
+                    </select>
+                </p>
+            </div>
+        </div>
+    </form>
+</div>

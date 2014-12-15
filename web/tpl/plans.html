@@ -1,0 +1,25 @@
+        <div class="row">
+            <div class="col-md-9"><h3>Lesson Plans</h3></div>
+            <div class="col-md-3 filter-push-down">
+                <input name='tek_label' class="form-control" ng-model="query">
+            </div>
+        </div>
+        <table class="table table-condensed table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>TEK</th>
+                    <th>Plan Date</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="plan in plans | filter:query">
+                <td><a href="#/plans/{{plan.id}}">{{plan.tek_label}}</a></td>
+                <td>{{plan.plan_d | date: 'MMM-dd yyyy'}}</td>
+                <td>{{plan.create_d | date: 'MMM-dd yyyy'}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div ng-if="!plans.length">
+            No plans available
+        </div>
