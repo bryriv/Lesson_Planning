@@ -271,9 +271,11 @@ create table tek_summary (
     id int(10) unsigned not null auto_increment primary key
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
     select 
+        concat(p.grade, '.', p.section, t.alpha, ' (', t.standard, ')') as label,
         concat(p.grade, '.', p.section, t.alpha) as tek,
         p.grade,
         t.standard,
+        p.topic,
         p.content as 'ks',
         t.content as 'se'
         from tek t, tek_parent p 
@@ -285,6 +287,7 @@ create table tek_summary (
 create view tek_summary_6 as
     select 
         t.id,
+        concat(p.grade, '.', p.section, t.alpha, ' (', t.standard, ')') as label,
         concat(p.grade, '.', p.section, t.alpha) as tek,
         p.grade,
         t.standard,
@@ -300,6 +303,7 @@ create view tek_summary_6 as
 create view tek_summary_7 as
     select 
         t.id,
+        concat(p.grade, '.', p.section, t.alpha, ' (', t.standard, ')') as label,
         concat(p.grade, '.', p.section, t.alpha) as tek,
         p.grade,
         t.standard,
@@ -327,17 +331,14 @@ create table plan (
     id int(10) unsigned not null auto_increment,
     plan_d date not null,
     grade tinyint not null,
-    primary_tek_id int(10) unsigned not null,
-    secondary_tek_id int(10) unsigned default null,
+    tek_id int(10) unsigned not null,
+    tek_label varchar(10) not null,
     ps_id int(10) unsigned not null,
-    create_d datetime not null,
-    update_d timestamp default current_timestamp on update current_timestamp,
+    create_d date not null,
     primary key (id),
-    key FK_plan_primary_tek (primary_tek_id),
-    key FK_plan_secondary_tek (secondary_tek_id),
+    key FK_plan_tek (tek_id),
     key FK_plan_ps (ps_id),
-    constraint FK_plan_primary_tek foreign key (primary_tek_id) references tek_summary (id),
-    constraint FK_plan_secondary_tek foreign key (secondary_tek_id) references tek_summary (id),
+    constraint FK_plan_tek foreign key (tek_id) references tek_summary (id),
     constraint FK_plan_ps foreign key (ps_id) references ps (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 

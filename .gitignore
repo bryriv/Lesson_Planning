@@ -1,12 +1,12 @@
 # LPMT igonore #
 ################
-app/app.conf
+*.conf
 web/crud/*
 web/test/*
 web/vendor/*
 web/js/app.js.learning
 web/css/blog.css
-
+*.ember
 
 # Compiled source #
 ###################
