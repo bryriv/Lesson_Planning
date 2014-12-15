@@ -1,24 +1,135 @@
 <div>
-    <h4>New Lesson Plan</h4>
-    <form role="form">
+    <h3>New Lesson Plan</h3>
+    <hr>
+    <form role="form" name="new_plan" ng-submit="createNewPlan()" id='new_plan_form'>
         <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="plan_d">Plan Date</label>
                 <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="plan_d" is-open="opened" min-date="'2013-12-30'" max-date="'2020-12-30'" date-disabled="disabled(date, mode)" ng-required="true" datepicker-options="dateOptions" close-text="Close" />
+                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="plan.plan_date" is-open="opened" min-date="'2013-12-30'" max-date="'2020-12-30'" date-disabled="disabled(date, mode)" ng-required="true" datepicker-options="dateOptions" close-text="Close" />
                     <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
                 </p>
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="tek">TEK</label>
-                <p class="input-group">
-                    <select ng-model='tek_id'>
-                        <option 
+                    <select class="form-control" ng-model="plan.tek" ng-options="tek as tek.label group by tek.grade for tek in teks">
+                        <option value="">-- choose TEK --</option>
                     </select>
+            </div>
+        </div>
+        <div class="row fixed-div-height-125">
+            <div class="form-group col-md-12">
+                <label for="knowledge_skills">Knowledge & Skills</label>
+                <div ng-if="plan.tek">
+                    <strong>{{plan.tek.topic}}:</strong> {{plan.tek.ks}}
+                </div>
+            </div>
+        </div>
+        <div class="row fixed-div-height-75">
+            <div class="form-group col-md-12">
+                <label for="student_exp">Student Expectations</label>
+                <div ng-if="plan.tek">
+                    {{plan.tek.se | capitalize}}
+                </div>
+            </div>
+        </div>
+        <div class="row fixed-div-height-75">
+            <div class="form-group col-md-12">
+                <label for="ps">Processing Standard</label>
+                    <select class="form-control" ng-model="plan.ps" ng-options="item_ps.content for item_ps in ps">
+                        <option value="">-- choose Processing Standard --</option>
+                    </select>
+                <p>
+                    <div>
+                        {{plan.ps.content | capitalize}}
+                    </div>
                 </p>
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="verbs">Verbs</label>
+                    <select class="form-control" ng-model="plan.verbitems" ng-options="verb as verb.verb for verb in verbs" multiple ng-change="update()">
+                        <option value="">-- choose Verbs --</option>
+                    </select>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="academic_objective">Academic Objective</label>
+                <div>
+                    <textarea ng-model="plan.academic_obj" name='acadmeic_obj' class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="vocubulary">Vocabulary for Language Objective</label>
+                <div>
+                    <textarea ng-model="plan.vocabulary" name="vocabulary" class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="essential_q">Essential Questions</label>
+                <div>
+                    <textarea ng-model="plan.essential_q" name="essential_q" class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="hook">Hook</label>
+                <div>
+                    <textarea ng-model="plan.hook" name="hook" class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="input_key">Input/Keypoints:</label>
+                <div>
+                    <textarea ng-model="plan.input_key" name="input_key" class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="common_err">Common Errors</label>
+                <div>
+                    <textarea ng-model="plan.common_err" name="common_err" class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="closure">Closure</label>
+                <div>
+                    <textarea ng-model="plan.closure" name="closure" class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="activities_struct">Activities & Structure</label>
+                <div>
+                    <textarea ng-model="plan.activities_struct" name="activities_struct" class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="boot_camp">Boot Camp</label>
+                <div>
+                    <textarea ng-model="plan.boot_camp" name="boot_camp" class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" ng-click="goToTop()">Submit</button>
+        <button type="reset" class="btn btn-default" ng-click="resetForm()">Clear</button>
     </form>
 </div>

@@ -5,6 +5,18 @@ body {
   padding: 40px 15px;
 }
 
+.fixed-div-height-125 {
+    height: 125px;
+}
+
+.fixed-div-height-75 {
+    height: 75px;
+}
+
+label {
+    text-decoration:underline;
+}
+
 .navbar {
     height: 30px;
     min-height: inherit;

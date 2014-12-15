@@ -3,6 +3,7 @@
 var lpmtApp = angular.module('lmptApp', [
     'ngRoute',
     'lpmtControllers',
+    'lpmtFilters',
     'lpmtServices'
 ]);
 

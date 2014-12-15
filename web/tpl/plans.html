@@ -16,7 +16,7 @@
             <tr ng-repeat="plan in plans | filter:query">
                 <td><a href="#/plans/{{plan.id}}">{{plan.tek_label}}</a></td>
                 <td>{{plan.plan_d | date: 'MMM-dd yyyy'}}</td>
-                <td>{{plan.create_d | date: 'MMM-dd yyyy'}}</td>
+                <td>{{plan.create_d | dateToISO | date: 'MMM-dd yyyy'}}</td>
             </tr>
             </tbody>
         </table>
