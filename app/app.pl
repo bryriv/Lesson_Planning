@@ -35,27 +35,40 @@ post '/plans' => sub {
     my $self = shift;
     my $data = $self->req->body;
     my $hash = decode_json($data);
-    my $plan = $self->db->resultset('Plan')->create($hash);
-    print STDERR Dumper $data;
+
     print STDERR Dumper $hash;
-    if($plan->id) {
-        return $self->render(
-            json => {
-                result => $plan->id, 
-                message => 'OK',
-                
-            }
-        );
-    }
-    else {
-        return $self->render(
-            json => {result => '0', message => 'Create plan failed.'}
-        );
-    }
+
+    $hash->{sections} = $self->munge_sections($hash->{sections});
+
+    print STDERR Dumper $hash;
+
+    $self->db->resultset('Plan')->create($hash);
+
+    return $self->render(json => {result => 999, message => 'OK'});
+
+    # my $plan = $self->db->resultset('Plan')->create($hash);
+    # if($plan->id) {
+    #     return $self->render(
+    #         json => {
+    #             result => $plan->id, 
+    #             message => 'OK',
+
+    #         }
+    #     );
+    # }
+    # else {
+    #     return $self->render(
+    #         json => {result => '0', message => 'Create plan failed.'}
+    #     );
+    # }
 };
 
 get '/teks' => sub {
     my $self = shift;
+    # my @enum_section_types = $self->db->resultset('EnumSectionType')->all();
+    # my %types = map {$_->{type} => $_->{id}} map {{$_->get_columns}} @enum_section_types;
+    # print STDERR Dumper \%types;
+
     my @teks = $self->db->resultset('TekSummary')->all();
     $self->respond_to(
         any  => {json => [
@@ -74,7 +87,7 @@ get '/teks/:id' => sub {
 
 get '/ps' => sub {
     my $self = shift;
-    my @ps = $self->db->resultset('PS')->all();
+    my @ps = $self->db->resultset('ProcStandard')->all();
     $self->respond_to(
         any  => {json => [
             map { {$_->get_columns} } @ps
@@ -84,7 +97,7 @@ get '/ps' => sub {
 get '/ps/:id' => sub {
     my $self = shift;
     my $ps_id  = $self->stash('id');
-    my $ps = $self->db->resultset('PS')->find($ps_id);
+    my $ps = $self->db->resultset('ProcStandard')->find($ps_id);
     $self->respond_to(
         any  => {json => {$ps->get_columns}},
     );
@@ -108,6 +121,23 @@ get '/verbs/:id' => sub {
     );
 };
 
+
+helper munge_sections => sub {
+    my ($self, $sections) = @_;
+
+    # get hash lookup for section type ids {type => db_id}
+    my @enum_section_types = $self->db->resultset('EnumSectionType')->all();
+    my %enum_section_types = map {$_->{type} => $_->{id}} map {{$_->get_columns}} @enum_section_types;
+
+    my @sections;
+    for my $section (keys %{$sections}) {
+        push @sections, 
+            {   enum_section_type_id => $enum_section_types{$section}, 
+                content => $sections->{$section}
+            };
+    }
+    return \@sections;
+};
 
 
 app->start;

@@ -119,13 +119,13 @@ __PACKAGE__->set_primary_key("id");
 
 Type: belongs_to
 
-Related object: L<Schema::Result::P>
+Related object: L<Schema::Result::ProcStandard>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "ps",
-  "Schema::Result::PS",
+  "p",
+  "Schema::Result::ProcStandard",
   { id => "ps_id" },
   { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
@@ -191,8 +191,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-15 01:23:12
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:u8K2Yh/fNcimpLpfSZvj1w
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-15 19:54:39
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:G1bA5IoV2SU9QPLtcQKPfQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -36,3 +36,16 @@ lpmtServices.factory('Verbs', ['$resource',
         return $resource('http://192.168.1.167/api/verbs/:verbId');
     }
 ]);
+
+lpmtServices.factory("Message", function($rootScope) {
+    var appMessage = {};
+    appMessage.message = '';
+    appMessage.prep = function(content) {
+        this.message = content;
+        this.broadcastMessage();
+    };
+    appMessage.broadcastMessage = function() {
+        $rootScope.$broadcast('newMessage');
+    };
+    return appMessage;
+});

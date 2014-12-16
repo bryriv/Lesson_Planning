@@ -317,8 +317,8 @@ create view tek_summary_7 as
 
 -- Other tables
 
--- ps
-create table ps (
+-- proc_standard
+create table proc_standard (
     id int(10) unsigned not null auto_increment,
     grade tinyint not null,
     alpha varchar(4) not null,
@@ -339,7 +339,7 @@ create table plan (
     key FK_plan_tek (tek_id),
     key FK_plan_ps (ps_id),
     constraint FK_plan_tek foreign key (tek_id) references tek_summary (id),
-    constraint FK_plan_ps foreign key (ps_id) references ps (id)
+    constraint FK_plan_ps foreign key (ps_id) references proc_standard (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- verb
@@ -449,12 +449,12 @@ insert into verb (verb) values ('Summarize');
 insert into verb (verb) values ('Describe');
 
 -- ps data
-insert into ps (grade, alpha, content) values (6, 'A', 'apply mathematics to problems arising in everyday life, society, and the workplace');
-insert into ps (grade, alpha, content) values (6, 'B', 'use a problem-solving model that incorporates analyzing given information, formulating a plan or strategy, determining a solution, justifying the solution, and evaluating the problem-solving process and the reasonableness of the solution');
-insert into ps (grade, alpha, content) values (6, 'C', 'select tools, including real objects, manipulatives, paper and pencil, and technology as appropriate, and techniques, including mental math, estimation, and number sense as appropriate, to solve problems');
-insert into ps (grade, alpha, content) values (6, 'D', 'communicate mathematical ideas, reasoning, and their implications using multiple representations, including symbols, diagrams, graphs, and language as appropriate');
-insert into ps (grade, alpha, content) values (6, 'E', 'create and use representations to organize, record, and communicate mathematical ideas');
-insert into ps (grade, alpha, content) values (6, 'F', 'analyze mathematical relationships to connect and communicate mathematical ideas');
-insert into ps (grade, alpha, content) values (6, 'G', 'display, explain, and justify mathematical ideas and arguments using precise mathematical language in written or oral communication');
+insert into proc_standard (grade, alpha, content) values (6, 'A', 'apply mathematics to problems arising in everyday life, society, and the workplace');
+insert into proc_standard (grade, alpha, content) values (6, 'B', 'use a problem-solving model that incorporates analyzing given information, formulating a plan or strategy, determining a solution, justifying the solution, and evaluating the problem-solving process and the reasonableness of the solution');
+insert into proc_standard (grade, alpha, content) values (6, 'C', 'select tools, including real objects, manipulatives, paper and pencil, and technology as appropriate, and techniques, including mental math, estimation, and number sense as appropriate, to solve problems');
+insert into proc_standard (grade, alpha, content) values (6, 'D', 'communicate mathematical ideas, reasoning, and their implications using multiple representations, including symbols, diagrams, graphs, and language as appropriate');
+insert into proc_standard (grade, alpha, content) values (6, 'E', 'create and use representations to organize, record, and communicate mathematical ideas');
+insert into proc_standard (grade, alpha, content) values (6, 'F', 'analyze mathematical relationships to connect and communicate mathematical ideas');
+insert into proc_standard (grade, alpha, content) values (6, 'G', 'display, explain, and justify mathematical ideas and arguments using precise mathematical language in written or oral communication');
 
 

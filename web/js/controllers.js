@@ -19,8 +19,9 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$routeParams', 'Plans'
     }
 ]);
 
-lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$anchorScroll', 'Plans', 'Teks', 'PS', 'Verbs',
-    function($scope, $location, $filter, $anchorScroll, Plans, Teks, PS, Verbs) {
+lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$rootScope', 'Message', 'Plans', 'Teks', 'PS', 'Verbs',
+    function($scope, $location, $filter, $rootScope, Message, Plans, Teks, PS, Verbs) {
+        $scope.message = Message;
         $scope.teks = Teks.query();
         $scope.ps = PS.query();
         $scope.verbs = Verbs.query();
@@ -37,6 +38,7 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$a
             // $scope.plan.payload.ps_id = $scope.plan.ps.id;
 
             var payload = {};
+            // plan data
             payload.plan_d = $filter('date')($scope.plan.plan_date, 'yyyy-MM-dd');
             payload.tek_id = $scope.plan.tek.id;
             payload.grade = $scope.plan.tek.grade;
@@ -44,17 +46,20 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$a
             payload.ps_id = $scope.plan.ps.id;
             payload.create_d = $filter('date')(new Date(), 'yyyy-MM-dd');
 
-            var response = Plans.create(payload);
-            // console.log(response);
+            // section data
+            payload.sections = $scope.plan.sections;
+
+            var response = Plans.create(payload, function(saveResponse) {
+                if (saveResponse.message === 'OK') {
+                    Message.prep("New plan created");
+                    $location.path("/plans");
+                }
+            });
         };
 
         $scope.resetForm = function() {
             $scope.plan.tek = '';
             $scope.plan.ps = '';
-        };
-        $scope.goToTop = function() {
-            $location.hash('body_top');
-            $anchorScroll();
         };
 
         // Date Picker
@@ -69,5 +74,24 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$a
         $scope.dateOptions = {
             showWeeks: false
         };
+    }
+]);
+
+lpmtControllers.controller('MessageCtrl', ['$scope', '$timeout', 'Message',
+    function($scope, $timeout, Message) {
+        $scope.$on('newMessage', function() {
+            $scope.alerts = [];
+            var alert = {
+                msg: Message.message,
+                type: 'success'
+            };
+            alert.close = function(){
+                $scope.alerts.splice($scope.alerts.indexOf(this), 1);
+            }
+            $scope.alerts.push(alert);
+            $timeout(function(){
+                $scope.alerts.splice($scope.alerts.indexOf(alert), 1);
+            }, 3000);
+        });
     }
 ]);

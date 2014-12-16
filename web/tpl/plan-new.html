@@ -61,7 +61,7 @@
             <div class="form-group col-md-12">
                 <label for="academic_objective">Academic Objective</label>
                 <div>
-                    <textarea ng-model="plan.academic_obj" name='acadmeic_obj' class='form-control' rows="5"></textarea>
+                    <textarea ng-model="plan.sections.academic_obj" name='acadmeic_obj' class='form-control' rows="5"></textarea>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
             <div class="form-group col-md-12">
                 <label for="vocubulary">Vocabulary for Language Objective</label>
                 <div>
-                    <textarea ng-model="plan.vocabulary" name="vocabulary" class='form-control' rows="5"></textarea>
+                    <textarea ng-model="plan.sections.vocabulary" name="vocabulary" class='form-control' rows="5"></textarea>
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" ng-click="goToTop()">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
         <button type="reset" class="btn btn-default" ng-click="resetForm()">Clear</button>
     </form>
 </div>

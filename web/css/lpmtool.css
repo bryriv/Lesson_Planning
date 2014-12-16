@@ -5,6 +5,10 @@ body {
   padding: 40px 15px;
 }
 
+#index-alert {
+    height: 55px;
+}
+
 .fixed-div-height-125 {
     height: 125px;
 }

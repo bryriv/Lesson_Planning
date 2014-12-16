@@ -14,11 +14,8 @@ lpmtFilters.filter('dateToISO', function() {
     return function(input) {
         if(input!=null) {
             input = '2014-12-15T00:34:39';
-            console.log('in filter1: ' + input);
             input = new Date(input);
-            console.log('in filter2: ' + input);
             input = input.toISOString();
-            console.log('in filter3: ' + input);
             return input;
         }
     };
