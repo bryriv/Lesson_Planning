@@ -33,19 +33,22 @@ lpmtServices.factory('PS', ['$resource',
 
 lpmtServices.factory('Verbs', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/verbs/:verbId');
+        return $resource('http://192.168.1.167/api/verbs/:verbId', {}, {
+            query: { method: 'GET', isArray: true},
+            create: { method: 'POST'}
+        });
     }
 ]);
 
 lpmtServices.factory("Message", function($rootScope) {
     var appMessage = {};
     appMessage.message = '';
-    appMessage.prep = function(content) {
+    appMessage.prep = function(event, content) {
         this.message = content;
-        this.broadcastMessage();
+        this.broadcastMessage(event);
     };
-    appMessage.broadcastMessage = function() {
-        $rootScope.$broadcast('newMessage');
+    appMessage.broadcastMessage = function(event) {
+        $rootScope.$broadcast(event);
     };
     return appMessage;
 });

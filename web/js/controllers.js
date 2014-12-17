@@ -25,7 +25,6 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$r
         $scope.teks = Teks.query();
         $scope.ps = PS.query();
         $scope.verbs = Verbs.query();
-        $scope.selectedVerbs = [];
         $scope.update = function() {
         };
 
@@ -37,6 +36,7 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$r
             // $scope.plan.payload.tek_label = $scope.plan.tek.label;
             // $scope.plan.payload.ps_id = $scope.plan.ps.id;
 
+            // console.log($scope.plan);
             var payload = {};
             // plan data
             payload.plan_d = $filter('date')($scope.plan.plan_date, 'yyyy-MM-dd');
@@ -48,14 +48,20 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$r
 
             // section data
             payload.sections = $scope.plan.sections;
+            payload.verb_plan_maps = $scope.plan.verbs;
 
             var response = Plans.create(payload, function(saveResponse) {
                 if (saveResponse.message === 'OK') {
-                    Message.prep("New plan created");
+                    Message.prep('newMessage', "New plan created");
                     $location.path("/plans");
                 }
             });
         };
+
+        $scope.$on('newVerb', function() {
+            console.log('new verb added, refreshing list');
+            $scope.verbs = Verbs.query();
+        });
 
         $scope.resetForm = function() {
             $scope.plan.tek = '';
@@ -73,6 +79,20 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$r
         };
         $scope.dateOptions = {
             showWeeks: false
+        };
+    }
+]);
+
+lpmtControllers.controller('VerbNewCtrl', ['$scope', 'Verbs', 'Message',
+    function($scope, Verbs, Message) {
+        $scope.addVerb = function() {
+            var response = Verbs.create($scope.verb, function(saveResponse) {
+                if (saveResponse.message === 'OK') {
+                    Message.prep('newVerb');
+                    Message.prep('newMessage', "Added verb '" + $scope.verb.verb + "'");
+                    $scope.verb = '';
+                }
+            });
         };
     }
 ]);

@@ -90,13 +90,20 @@
               <li><a href="#">April 2013</a></li>
             </ol>
           </div>
-          <div class="sidebar-module">
-            <h4>Elsewhere</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">GitHub</a></li>
-              <li><a href="#">Twitter</a></li>
-              <li><a href="#">Facebook</a></li>
-            </ol>
+          <div class="sidebar-module" ng-controller="VerbNewCtrl">
+            <h4>Add verbs</h4>
+                <form class="form" role="form" name="new_verb" ng-submit="addVerb()" id='new_verb'>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-8"
+                                <label for="new_verb" class="control-label sr-only"></label>
+                                <div style="margin-bottom:5px"><input type="text" class="form-control input-sm" ng-model="verb.verb"></div>
+                                <button type="submit" class="btn btn-primary btn-xs">Add</button>
+                                <button type="reset" class="btn btn-default btn-xs">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
           </div>
         </div><!-- /.blog-sidebar -->
 

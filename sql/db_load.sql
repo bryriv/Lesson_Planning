@@ -358,7 +358,7 @@ create table verb_plan_map (
     key FK_verb_plan_map_verb (verb_id),
     key FK_verb_plan_map_plan (plan_id),
     constraint FK_verb_plan_map_verb foreign key (verb_id) references verb (id),
-    constraint FK_verb_plan_map_plan foreign key (plan_id) references plan (id)
+    constraint FK_verb_plan_map_plan foreign key (plan_id) references plan (id) on delete cascade
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- enum_resource_type
@@ -406,14 +406,14 @@ create table section (
 -- data load
 
 -- enum_section_type data
-insert into enum_section_type (type) values ('Academic Objective');
-insert into enum_section_type (type) values ('Vocabulary for Language Objective');
-insert into enum_section_type (type) values ('Essential Questions');
-insert into enum_section_type (type) values ('Hook');
-insert into enum_section_type (type) values ('Input/Keypoints');
-insert into enum_section_type (type) values ('Common Errors');
-insert into enum_section_type (type) values ('Closure');
-insert into enum_section_type (type) values ('Boot Camp');
+insert into enum_section_type (type) values ('academic_obj');
+insert into enum_section_type (type) values ('vocabulary');
+insert into enum_section_type (type) values ('essential_q');
+insert into enum_section_type (type) values ('hook');
+insert into enum_section_type (type) values ('input_key');
+insert into enum_section_type (type) values ('common_err');
+insert into enum_section_type (type) values ('closure');
+insert into enum_section_type (type) values ('boot_camp');
 
 -- enum_resource_type data
 insert into enum_resource_type (type) values ('Model');

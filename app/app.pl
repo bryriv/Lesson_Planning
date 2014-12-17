@@ -38,7 +38,8 @@ post '/plans' => sub {
 
     print STDERR Dumper $hash;
 
-    $hash->{sections} = $self->munge_sections($hash->{sections});
+    $hash->{sections} = $self->map_sections($hash->{sections});
+    $hash->{verb_plan_maps} = $self->map_verbs($hash->{verb_plan_maps});
 
     print STDERR Dumper $hash;
 
@@ -121,8 +122,30 @@ get '/verbs/:id' => sub {
     );
 };
 
+post '/verbs' => sub {
+    my $self = shift;
+    my $data = $self->req->body;
+    my $hash = decode_json($data);
 
-helper munge_sections => sub {
+    print STDERR Dumper $hash;
+    my $verb = $self->db->resultset('Verb')->create($hash);
+    if($verb->id) {
+        return $self->render(
+            json => {
+                result => $verb->id, 
+                message => 'OK',
+
+            }
+        );
+    }
+    else {
+        return $self->render(
+            json => {result => '0', message => 'Add verb failed.'}
+        );
+    }
+};
+
+helper map_sections => sub {
     my ($self, $sections) = @_;
 
     # get hash lookup for section type ids {type => db_id}
@@ -137,6 +160,15 @@ helper munge_sections => sub {
             };
     }
     return \@sections;
+};
+
+helper map_verbs => sub {
+    my ($self, $verbs) = @_;
+    my @verbs;
+    for my $verb (@{$verbs}) {
+        push @verbs, {verb_id => $verb->{id}};
+    }
+    return \@verbs;
 };
 
 

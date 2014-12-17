@@ -22,7 +22,7 @@
         <div class="row fixed-div-height-125">
             <div class="form-group col-md-12">
                 <label for="knowledge_skills">Knowledge & Skills</label>
-                <div ng-if="plan.tek">
+                <div class='outline' ng-if="plan.tek">
                     <strong>{{plan.tek.topic}}:</strong> {{plan.tek.ks}}
                 </div>
             </div>
@@ -30,7 +30,7 @@
         <div class="row fixed-div-height-75">
             <div class="form-group col-md-12">
                 <label for="student_exp">Student Expectations</label>
-                <div ng-if="plan.tek">
+                <div class='outline' ng-if="plan.tek">
                     {{plan.tek.se | capitalize}}
                 </div>
             </div>
@@ -42,7 +42,7 @@
                         <option value="">-- choose Processing Standard --</option>
                     </select>
                 <p>
-                    <div>
+                    <div class='outline' ng-if="plan.ps">
                         {{plan.ps.content | capitalize}}
                     </div>
                 </p>
@@ -51,7 +51,7 @@
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="verbs">Verbs</label>
-                    <select class="form-control" ng-model="plan.verbitems" ng-options="verb as verb.verb for verb in verbs" multiple ng-change="update()">
+                    <select class="form-control" ng-model="plan.verbs" ng-options="verb as verb.verb for verb in verbs" multiple ng-change="update()">
                         <option value="">-- choose Verbs --</option>
                     </select>
 
@@ -61,7 +61,8 @@
             <div class="form-group col-md-12">
                 <label for="academic_objective">Academic Objective</label>
                 <div>
-                    <textarea ng-model="plan.sections.academic_obj" name='acadmeic_obj' class='form-control' rows="5"></textarea>
+                    <textarea ng-model="plan.sections.academic_obj" name='acadmeic_obj' ng-init="plan.sections.academic_obj='The learner will '" class='form-control' rows="5">
+                    </textarea>
                 </div>
             </div>
         </div>
@@ -77,7 +78,7 @@
             <div class="form-group col-md-12">
                 <label for="essential_q">Essential Questions</label>
                 <div>
-                    <textarea ng-model="plan.essential_q" name="essential_q" class='form-control' rows="5"></textarea>
+                    <textarea ng-model="plan.sections.essential_q" name="essential_q" class='form-control' rows="5"></textarea>
                 </div>
             </div>
         </div>
@@ -85,7 +86,7 @@
             <div class="form-group col-md-12">
                 <label for="hook">Hook</label>
                 <div>
-                    <textarea ng-model="plan.hook" name="hook" class='form-control' rows="5"></textarea>
+                    <textarea ng-model="plan.sections.hook" name="hook" class='form-control' rows="5"></textarea>
                 </div>
             </div>
         </div>
@@ -93,7 +94,7 @@
             <div class="form-group col-md-12">
                 <label for="input_key">Input/Keypoints:</label>
                 <div>
-                    <textarea ng-model="plan.input_key" name="input_key" class='form-control' rows="5"></textarea>
+                    <textarea ng-model="plan.sections.input_key" name="input_key" class='form-control' rows="5"></textarea>
                 </div>
             </div>
         </div>
@@ -101,7 +102,7 @@
             <div class="form-group col-md-12">
                 <label for="common_err">Common Errors</label>
                 <div>
-                    <textarea ng-model="plan.common_err" name="common_err" class='form-control' rows="5"></textarea>
+                    <textarea ng-model="plan.sections.common_err" name="common_err" class='form-control' rows="5"></textarea>
                 </div>
             </div>
         </div>
@@ -109,7 +110,7 @@
             <div class="form-group col-md-12">
                 <label for="closure">Closure</label>
                 <div>
-                    <textarea ng-model="plan.closure" name="closure" class='form-control' rows="5"></textarea>
+                    <textarea ng-model="plan.sections.closure" name="closure" class='form-control' rows="5"></textarea>
                 </div>
             </div>
         </div>
@@ -125,7 +126,7 @@
             <div class="form-group col-md-12">
                 <label for="boot_camp">Boot Camp</label>
                 <div>
-                    <textarea ng-model="plan.boot_camp" name="boot_camp" class='form-control' rows="5"></textarea>
+                    <textarea ng-model="plan.sections.boot_camp" name="boot_camp" class='form-control' rows="5"></textarea>
                 </div>
             </div>
         </div>
