@@ -38,12 +38,12 @@
         <div class="row fixed-div-height-75">
             <div class="form-group col-md-12">
                 <label for="ps">Processing Standard</label>
-                    <select class="form-control" ng-model="plan.ps" ng-options="item_ps.content for item_ps in ps">
+                    <select class="form-control" ng-model="plan.ps" ng-options="item_ps.alpha + ' - ' + item_ps.content for item_ps in ps">
                         <option value="">-- choose Processing Standard --</option>
                     </select>
                 <p>
                     <div class='outline' ng-if="plan.ps">
-                        {{plan.ps.content | capitalize}}
+                        {{plan.ps.alpha}} - {{plan.ps.content | capitalize}}
                     </div>
                 </p>
             </div>
@@ -61,7 +61,7 @@
             <div class="form-group col-md-12">
                 <label for="academic_objective">Academic Objective</label>
                 <div>
-                    <textarea ng-model="plan.sections.academic_obj" name='acadmeic_obj' ng-init="plan.sections.academic_obj='The learner will '" class='form-control' rows="5">
+                    <textarea ng-model="plan.sections.academic_obj" name='acadmeic_obj' class='form-control' rows="5">
                     </textarea>
                 </div>
             </div>
@@ -116,9 +116,64 @@
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label for="activities_struct">Activities & Structure</label>
-                <div>
-                    <textarea ng-model="plan.activities_struct" name="activities_struct" class='form-control' rows="5"></textarea>
+                <label for="activities_struct">Activties & Structures</label>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="" ng-model="plan.resources.model.complete">Model</label>
+                </div>
+
+                <div class="checkbox">
+                    <label><input type="checkbox" value="" ng-model="plan.resources.guided_practice.complete">Guided Practice</label>
+                </div>
+
+                <div class="checkbox">
+                    <label><input type="checkbox" value="" ng-model="plan.resources.indy_practice.complete">Independent Practice</label>
+                </div>
+
+                <div class="checkbox">
+                    <label><input type="checkbox" value="" ng-model="plan.resources.exit_ticket.complete">Exit Ticket</label>
+                </div>
+                <div class="activities-div">
+                    <input type="text" class='form-control input-sm' placeholder="Exit Ticket Dropbox link" name="exit_ticket_url" ng-model="plan.resources.exit_ticket.url">
+                </div>
+
+                <div class="checkbox">
+                    <label><input type="checkbox" value="" ng-model="plan.resources.flipchart.complete">Flipchart</label>
+                </div>
+                <div class="activities-div">
+                    <input type="text" class='form-control input-sm' placeholder="Flipchart Dropbox link" name="flipchart_url" ng-model="plan.resources.flipchart.url">
+                </div>
+                <div class="activities-div activities-spacing">
+                    <input type="text" class='form-control input-sm' placeholder="Flipchart notes" name="flipchart_note" ng-model="plan.resources.flipchart.notes">
+                </div>
+
+                <div class="checkbox">
+                    <label><input type="checkbox" value="" ng-model="plan.resources.guided_notes.complete">Guided Notes</label>
+                </div>
+                <div class="activities-div">
+                    <input type="text" class='form-control input-sm' placeholder="Guided Notes Dropbox link" name="guided_notes_url" ng-model="plan.resources.guided_notes.url">
+                </div>
+                <div class="activities-div activities-spacing">
+                    <input type="text" class='form-control input-sm' placeholder="Guided Notes info" name="guided_notes_info" ng-model="plan.resources.guided_notes.notes">
+                </div>
+
+                <div class="checkbox">
+                    <label><input type="checkbox" value="" ng-model="plan.resources.homework.complete">Homework</label>
+                </div>
+                <div class="activities-div">
+                    <input type="text" class='form-control input-sm' placeholder="Homework Dropbox link" name="homework_url" ng-model="plan.resources.homework.url">
+                </div>
+                <div class="activities-div activities-spacing">
+                    <input type="text" class='form-control input-sm' placeholder="Homework notes" name="homework_note" ng-model="plan.resources.homework.notes">
+                </div>
+
+                <div class="checkbox">
+                    <label><input type="checkbox" value="" ng-model="plan.resources.homework_key.complete">Homework Key</label>
+                </div>
+                <div class="activities-div">
+                    <input type="text" class='form-control input-sm' placeholder="Homework Key Dropbox link" name="homework_key_url" ng-model="plan.resources.homework_key.url">
+                </div>
+                <div class="activities-div activities-spacing">
+                    <input type="text" class='form-control input-sm' placeholder="Homework Key notes" name="homework_key_note" ng-model="plan.resources.homework_key.notes">
                 </div>
             </div>
         </div>

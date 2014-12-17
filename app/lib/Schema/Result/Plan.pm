@@ -41,7 +41,7 @@ __PACKAGE__->table("plan");
   data_type: 'tinyint'
   is_nullable: 0
 
-=head2 tek_id
+=head2 tek_summary_id
 
   data_type: 'integer'
   extra: {unsigned => 1}
@@ -54,7 +54,7 @@ __PACKAGE__->table("plan");
   is_nullable: 0
   size: 10
 
-=head2 ps_id
+=head2 proc_standard_id
 
   data_type: 'integer'
   extra: {unsigned => 1}
@@ -81,7 +81,7 @@ __PACKAGE__->add_columns(
   { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 0 },
   "grade",
   { data_type => "tinyint", is_nullable => 0 },
-  "tek_id",
+  "tek_summary_id",
   {
     data_type => "integer",
     extra => { unsigned => 1 },
@@ -90,7 +90,7 @@ __PACKAGE__->add_columns(
   },
   "tek_label",
   { data_type => "varchar", is_nullable => 0, size => 10 },
-  "ps_id",
+  "proc_standard_id",
   {
     data_type => "integer",
     extra => { unsigned => 1 },
@@ -115,7 +115,7 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 p
+=head2 proc_standard
 
 Type: belongs_to
 
@@ -124,9 +124,9 @@ Related object: L<Schema::Result::ProcStandard>
 =cut
 
 __PACKAGE__->belongs_to(
-  "p",
+  "proc_standard",
   "Schema::Result::ProcStandard",
-  { id => "ps_id" },
+  { id => "proc_standard_id" },
   { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
@@ -160,7 +160,7 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 tek
+=head2 tek_summary
 
 Type: belongs_to
 
@@ -169,9 +169,9 @@ Related object: L<Schema::Result::TekSummary>
 =cut
 
 __PACKAGE__->belongs_to(
-  "tek",
+  "tek_summary",
   "Schema::Result::TekSummary",
-  { id => "tek_id" },
+  { id => "tek_summary_id" },
   { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
@@ -191,8 +191,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-15 19:54:39
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:G1bA5IoV2SU9QPLtcQKPfQ
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-17 01:48:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pt5e2opNkfbrIftK/xNZJg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

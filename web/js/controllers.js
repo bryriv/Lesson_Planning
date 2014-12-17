@@ -11,10 +11,12 @@ lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
     }
 ]);
 
-lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$routeParams', 'Plans', 'Teks',
-    function($scope, $routeParams, Plans, Teks) {
+lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$routeParams', 'Plans', 'PlanVerbs', 'PlanResources', 'PlanSections',
+    function($scope, $routeParams, Plans, PlanVerbs, PlanResources, PlanSections) {
         $scope.plan = Plans.get({planId: $routeParams.planId}, function(plan) {
-            $scope.tek = Teks.get({tekId: $scope.plan.tek_id});
+            $scope.verbs = PlanVerbs.query({planId: $routeParams.planId});
+            $scope.resources = PlanResources.query({planId: $routeParams.planId});
+            $scope.sections = PlanSections.query({planId: $routeParams.planId});
         })
     }
 ]);
@@ -40,15 +42,16 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$r
             var payload = {};
             // plan data
             payload.plan_d = $filter('date')($scope.plan.plan_date, 'yyyy-MM-dd');
-            payload.tek_id = $scope.plan.tek.id;
+            payload.tek_summary_id = $scope.plan.tek.id;
             payload.grade = $scope.plan.tek.grade;
             payload.tek_label = $scope.plan.tek.label;
-            payload.ps_id = $scope.plan.ps.id;
+            payload.proc_standard_id = $scope.plan.ps.id;
             payload.create_d = $filter('date')(new Date(), 'yyyy-MM-dd');
 
-            // section data
+            // extra data
             payload.sections = $scope.plan.sections;
             payload.verb_plan_maps = $scope.plan.verbs;
+            payload.resources = $scope.plan.resources;
 
             var response = Plans.create(payload, function(saveResponse) {
                 if (saveResponse.message === 'OK') {

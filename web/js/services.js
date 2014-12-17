@@ -40,6 +40,28 @@ lpmtServices.factory('Verbs', ['$resource',
     }
 ]);
 
+lpmtServices.factory('PlanVerbs', ['$resource',
+    function($resource) {
+        return $resource('http://192.168.1.167/api/plans/:planId/verbs');
+    }
+]);
+
+lpmtServices.factory('PlanResources', ['$resource',
+    function($resource) {
+        return $resource('http://192.168.1.167/api/plans/:planId/resources', {}, {
+            query: {isArray: true}
+        });
+    }
+]);
+
+lpmtServices.factory('PlanSections', ['$resource',
+    function($resource) {
+        return $resource('http://192.168.1.167/api/plans/:planId/sections', {}, {
+            query: {isArray: true}
+        });
+    }
+]);
+
 lpmtServices.factory("Message", function($rootScope) {
     var appMessage = {};
     appMessage.message = '';

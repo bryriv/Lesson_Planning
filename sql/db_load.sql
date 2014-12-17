@@ -6,7 +6,7 @@ drop table if exists enum_resource_type;
 drop table if exists verb_plan_map;
 drop table if exists verb;
 drop table if exists plan;
-drop table if exists ps;
+drop table if exists proc_standard;
 drop view if exists tek_summary_6;
 drop view if exists tek_summary_7;
 drop table if exists tek_summary;
@@ -331,15 +331,15 @@ create table plan (
     id int(10) unsigned not null auto_increment,
     plan_d date not null,
     grade tinyint not null,
-    tek_id int(10) unsigned not null,
+    tek_summary_id int(10) unsigned not null,
     tek_label varchar(10) not null,
-    ps_id int(10) unsigned not null,
+    proc_standard_id int(10) unsigned not null,
     create_d date not null,
     primary key (id),
-    key FK_plan_tek (tek_id),
-    key FK_plan_ps (ps_id),
-    constraint FK_plan_tek foreign key (tek_id) references tek_summary (id),
-    constraint FK_plan_ps foreign key (ps_id) references proc_standard (id)
+    key FK_plan_tek_summary (tek_summary_id),
+    key FK_plan_proc_standard (proc_standard_id),
+    constraint FK_plan_tek_summary foreign key (tek_summary_id) references tek_summary (id),
+    constraint FK_plan_proc_standard foreign key (proc_standard_id) references proc_standard (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- verb
@@ -365,6 +365,8 @@ create table verb_plan_map (
 create table enum_resource_type (
     id int(10) unsigned not null auto_increment,
     type varchar(60) not null,
+    label varchar(60) not null,
+    sequence int(5) unsigned not null,
     primary key (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -372,6 +374,8 @@ create table enum_resource_type (
 create table enum_section_type (
     id int(10) unsigned not null auto_increment,
     type varchar(60) not null,
+    label varchar(60) not null,
+    sequence int(5) unsigned not null,
     primary key (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -406,24 +410,24 @@ create table section (
 -- data load
 
 -- enum_section_type data
-insert into enum_section_type (type) values ('academic_obj');
-insert into enum_section_type (type) values ('vocabulary');
-insert into enum_section_type (type) values ('essential_q');
-insert into enum_section_type (type) values ('hook');
-insert into enum_section_type (type) values ('input_key');
-insert into enum_section_type (type) values ('common_err');
-insert into enum_section_type (type) values ('closure');
-insert into enum_section_type (type) values ('boot_camp');
+insert into enum_section_type (type, label, sequence) values ('academic_obj', 'Academic Objective', 1);
+insert into enum_section_type (type, label, sequence) values ('vocabulary', 'Vocabulary for Language Objective', 2);
+insert into enum_section_type (type, label, sequence) values ('essential_q', 'Essential Questions', 3);
+insert into enum_section_type (type, label, sequence) values ('hook', 'Hook', 4);
+insert into enum_section_type (type, label, sequence) values ('input_key', 'Input/Keypoints', 5);
+insert into enum_section_type (type, label, sequence) values ('common_err', 'Common Errors', 6);
+insert into enum_section_type (type, label, sequence) values ('closure', 'Closure', 7);
+insert into enum_section_type (type, label, sequence) values ('boot_camp', 'Boot Camp', 8);
 
 -- enum_resource_type data
-insert into enum_resource_type (type) values ('Model');
-insert into enum_resource_type (type) values ('Guided Practice');
-insert into enum_resource_type (type) values ('Independent Practice');
-insert into enum_resource_type (type) values ('Exit Ticket');
-insert into enum_resource_type (type) values ('Flipchart');
-insert into enum_resource_type (type) values ('GN\'s');
-insert into enum_resource_type (type) values ('HW');
-insert into enum_resource_type (type) values ('HW Key');
+insert into enum_resource_type (type, label, sequence) values ('model', 'Model', 1);
+insert into enum_resource_type (type, label, sequence) values ('guided_practice', 'Guided Practice', 2);
+insert into enum_resource_type (type, label, sequence) values ('indy_practice', 'Independent Practice', 3);
+insert into enum_resource_type (type, label, sequence) values ('exit_ticket', 'Exit Ticket', 4);
+insert into enum_resource_type (type, label, sequence) values ('flipchart', 'Flipchart', 5);
+insert into enum_resource_type (type, label, sequence) values ('guided_notes', 'Guided Notes', 6);
+insert into enum_resource_type (type, label, sequence) values ('homework', 'Homework', 7);
+insert into enum_resource_type (type, label, sequence) values ('homework_key', 'Homework Key', 8);
 
 -- verb data
 insert into verb (verb) values ('Classify');

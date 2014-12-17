@@ -3,16 +3,12 @@ use Mojolicious::Lite;
 use Mojo::JSON qw(decode_json encode_json);
 use lib 'lib';
 use Schema;
-# use DBIx::Class::ResultClass::HashRefInflator;
-
-use Data::Dumper;
 
 my $conf = plugin JSONConfig => { file => './app.conf' };
 
-helper db => sub {
-  return Schema->connect($conf->{dsn}, $conf->{dbuser}, $conf->{dbpwd});
-};
+use Data::Dumper;
 
+# plans
 get '/plans' => sub {
     my $self = shift;
     my @plans = $self->db->resultset('Plan')->all();
@@ -25,11 +21,110 @@ get '/plans' => sub {
 
 get '/plans/:id' => sub {
     my $self = shift;
-    my $plan = $self->db->resultset('Plan')->find($self->stash('id'));
+    my $plan = $self->db->resultset('Plan')->find(
+        {   'me.id' => $self->stash('id')   },
+        {
+            join => ['proc_standard', 'tek_summary'],
+            '+select' => ['proc_standard.alpha', 'proc_standard.content', 'tek_summary.topic', 'tek_summary.ks', 'tek_summary.se'],
+            '+as' => ['ps_alpha', 'ps', 'topic', 'ks', 'se']
+        }
+    );
     $self->respond_to(
         any  => {json => {$plan->get_columns}},
     );
 };
+
+get '/plans/:id/verbs' => sub {
+    my $self = shift;
+    my $plan_id = $self->stash('id');
+    my @data = $self->db->resultset('VerbPlanMap')->search(
+        {   'plan_id' => $plan_id   },
+        {
+            join => 'verb',
+            '+select' => ['verb.verb'],
+            '+as' => ['verb']
+        }
+    )->all;
+    $self->respond_to(
+        any  => {json => [
+            map { {$_->get_columns} } @data   # gets verb_plan_map, plus verb.verb
+            # map { {$_->verb->get_columns} } @data # gets a smaller hash with just the 'verb' data, needs prefetch
+        ]},
+    );
+};
+
+get '/plans/:id/resources' => sub {
+    my $self = shift;
+    my $plan_id = $self->stash('id');
+    # select * from resource r join enum_resource_type e on e.id = r.enum_resource_type_id where r.plan_id = 41;
+    my @data = $self->db->resultset('Resource')->search(
+        {   'plan_id' => $plan_id   },
+        {
+            join => 'enum_resource_type',
+            '+select' => ['enum_resource_type.type', 'enum_resource_type.label', 'enum_resource_type.sequence'],
+            '+as' => ['type', 'type_label', 'type_sequence'],
+            order_by => {-asc => 'enum_resource_type.sequence'}
+        }
+    )->all;
+    $self->respond_to(
+        any  => {json => [
+            map { {$_->get_columns} } @data
+        ]},
+    );
+};
+
+get '/plans/:id/sections' => sub {
+    my $self = shift;
+    my $plan_id = $self->stash('id');
+    # select * from section s join enum_section_type e on e.id = s.enum_section_type_id where s.plan_id = 41;
+    my @data = $self->db->resultset('Section')->search(
+        {   'plan_id' => $plan_id   },
+        {
+            join => 'enum_section_type',
+            '+select' => ['enum_section_type.type, enum_section_type.label, enum_section_type.sequence'],
+            '+as' => ['type', 'type_label', 'type_sequence'],
+            order_by => {-asc => 'enum_section_type.sequence'}
+        }
+    )->all;
+    $self->respond_to(
+        any  => {json => [
+            map { {$_->get_columns} } @data
+        ]},
+    );
+};
+
+# get '/plans/:id/sections' => sub {
+#     my $self = shift;
+#     my $plan_id = $self->stash('id');
+#     # select * from section s join enum_section_type e on e.id = s.enum_section_type_id where s.plan_id = 41;
+#     my @data = $self->db->resultset('Section')->search(
+#         {   'plan_id' => $plan_id   },
+#         {
+#             join => 'enum_section_type',
+#             '+select' => ['enum_section_type.type'],
+#             '+as' => ['type']
+#         }
+#     )->all;
+
+#     # put data in format easier for UI
+#     my $hash = {};
+#     my @hash = map { {$_->get_columns} } @data;
+#     for my $chunk (@hash) {
+#         $hash->{$chunk->{type}} = $chunk;
+#     }
+#     print STDERR Dumper $hash;
+
+#     $self->respond_to(
+#         any  => {json => $hash},
+#     );
+
+#     # $self->respond_to(
+#     #     any  => {json => [
+#     #         map { {$_->get_columns} } @data
+#     #     ]},
+#     # );
+# };
+
 
 post '/plans' => sub {
     my $self = shift;
@@ -40,36 +135,34 @@ post '/plans' => sub {
 
     $hash->{sections} = $self->map_sections($hash->{sections});
     $hash->{verb_plan_maps} = $self->map_verbs($hash->{verb_plan_maps});
+    $hash->{resources} = $self->map_resources($hash->{resources});
 
     print STDERR Dumper $hash;
 
-    $self->db->resultset('Plan')->create($hash);
+    # $self->db->resultset('Plan')->create($hash);
+    # return $self->render(json => {result => 999, message => 'OK'});
 
-    return $self->render(json => {result => 999, message => 'OK'});
+    my $plan = $self->db->resultset('Plan')->create($hash);
+    if($plan->id) {
+        return $self->render(
+            json => {
+                result => $plan->id, 
+                message => 'OK',
 
-    # my $plan = $self->db->resultset('Plan')->create($hash);
-    # if($plan->id) {
-    #     return $self->render(
-    #         json => {
-    #             result => $plan->id, 
-    #             message => 'OK',
-
-    #         }
-    #     );
-    # }
-    # else {
-    #     return $self->render(
-    #         json => {result => '0', message => 'Create plan failed.'}
-    #     );
-    # }
+            }
+        );
+    }
+    else {
+        return $self->render(
+            json => {result => '0', message => 'Create plan failed.'}
+        );
+    }
 };
 
+
+# teks
 get '/teks' => sub {
     my $self = shift;
-    # my @enum_section_types = $self->db->resultset('EnumSectionType')->all();
-    # my %types = map {$_->{type} => $_->{id}} map {{$_->get_columns}} @enum_section_types;
-    # print STDERR Dumper \%types;
-
     my @teks = $self->db->resultset('TekSummary')->all();
     $self->respond_to(
         any  => {json => [
@@ -86,6 +179,7 @@ get '/teks/:id' => sub {
     );
 };
 
+# process standards
 get '/ps' => sub {
     my $self = shift;
     my @ps = $self->db->resultset('ProcStandard')->all();
@@ -104,6 +198,7 @@ get '/ps/:id' => sub {
     );
 };
 
+# verbs
 get '/verbs' => sub {
     my $self = shift;
     my @verbs = $self->db->resultset('Verb')->all();
@@ -145,6 +240,16 @@ post '/verbs' => sub {
     }
 };
 
+
+
+
+
+
+# helpers
+helper db => sub {
+  return Schema->connect($conf->{dsn}, $conf->{dbuser}, $conf->{dbpwd});
+};
+
 helper map_sections => sub {
     my ($self, $sections) = @_;
 
@@ -171,6 +276,23 @@ helper map_verbs => sub {
     return \@verbs;
 };
 
+helper map_resources => sub {
+    my ($self, $resources) = @_;
+
+    # get hash lookup for resource type ids {type => db_id}
+    my @enum_resource_types = $self->db->resultset('EnumResourceType')->all();
+    my %enum_resource_types = map {$_->{type} => $_->{id}} map {{$_->get_columns}} @enum_resource_types;
+
+    my @resources;
+    for my $resource (keys %{$resources}) {
+        my $hash->{enum_resource_type_id} = $enum_resource_types{$resource};
+        for my $attr (keys %{$resources->{$resource}}) {
+            $hash->{$attr} = $resources->{$resource}{$attr};
+        }
+        push @resources, $hash;
+    }
+    return \@resources;
+};
 
 app->start;
 

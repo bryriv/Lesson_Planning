@@ -36,6 +36,19 @@ __PACKAGE__->table("enum_resource_type");
   is_nullable: 0
   size: 60
 
+=head2 label
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 60
+
+=head2 sequence
+
+  accessor: undef
+  data_type: 'integer'
+  extra: {unsigned => 1}
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -48,6 +61,15 @@ __PACKAGE__->add_columns(
   },
   "type",
   { data_type => "varchar", is_nullable => 0, size => 60 },
+  "label",
+  { data_type => "varchar", is_nullable => 0, size => 60 },
+  "sequence",
+  {
+    accessor    => undef,
+    data_type   => "integer",
+    extra       => { unsigned => 1 },
+    is_nullable => 0,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -80,8 +102,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-15 19:54:39
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7HjDQNsh7Y6r5GG1r7yhoA
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-17 01:48:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:k390HgH0ujpfV0f2qlAtnQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

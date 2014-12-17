@@ -89,13 +89,13 @@ Related object: L<Schema::Result::Plan>
 __PACKAGE__->has_many(
   "plans",
   "Schema::Result::Plan",
-  { "foreign.ps_id" => "self.id" },
+  { "foreign.proc_standard_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-15 19:54:39
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:CdMSuWBps7mJnynhKzi0iQ
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-17 01:48:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:72lM81knIIyJq66gT+FOBw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

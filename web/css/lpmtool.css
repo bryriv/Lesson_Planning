@@ -5,6 +5,22 @@ body {
   padding: 40px 15px;
 }
 
+.test {
+    margin: 0px 20px 0px 20px;
+}
+
+.angular-with-newlines {
+    white-space: pre;
+}
+
+.activities-div {
+    margin: 0px 20px 0px 20px;
+}
+
+.activities-spacing {
+    margin-top: 4px;
+}
+
 .outline {
     border: 1px solid #ccc;
     margin: 5px 20px 0px 20px;
@@ -24,7 +40,7 @@ body {
 }
 
 label {
-    text-decoration:underline;
+    /*text-decoration:underline;*/
 }
 
 .navbar {

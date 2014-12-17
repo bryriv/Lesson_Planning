@@ -1,8 +1,52 @@
 <div>
-    <h3>{{plan.tek_label}} | {{plan.plan_d | date: 'MMM-dd yyyy EEE'}}</h4>
+    <h3>TEK {{plan.tek_label}}</h3>
+    <h4>{{plan.plan_d | date: 'MMM-dd yyyy EEE'}}</h4>
     <h4>Grade: {{plan.grade}}</h4>
-    <h4>Knowledge & Skills</h4>
-    <p><strong>{{tek.topic}}</strong>: {{tek.ks}}</p>
-    <h4>Student Expectation</h4>
-    <p>{{tek.se}}</p>
+</div>
+<hr>
+<div>
+    <h5>Knowledge & Skills</h5>
+    <div class="outline">
+        <strong>{{plan.topic}}</strong>: {{plan.ks}}
+    </div>
+</div>
+<div>
+    <h5>Student Expectations</h5>
+    <div class="outline">
+        {{plan.se | capitalize}}
+    </div>
+</div>
+<div>
+    <h5>Verbs</h5>
+    <div>
+        <ul>
+            <li ng-repeat="verb in verbs">{{verb.verb}}</li>
+        </ul>
+    </div>
+</div>
+<div>
+    <h5>Processing Standard</h5>
+    <div class="outline">
+        {{plan.ps_alpha}} - {{plan.ps | capitalize}}
+    </div>
+</div>
+<div ng-repeat="section in sections">
+    <h5>{{section.type_label}}</h5>
+    <div class="outline">
+        <p ng-bind-html="section.content | lineBreak"></p>
+    </div>
+</div>
+<div>
+    <h5>Activities & Structures</h5>
+    <div ng-repeat="resource in resources">
+        {{resource.type_label}}
+        <ul>
+            <li>Complete: 
+                <span ng-show="resource.complete"><strong>Yes</strong></span>
+                <span ng-hide="resource.complete"><strong>No</strong></span>
+            </li>
+            <li ng-if="resource.url"><a href="{{resource.url}}">{{resource.url}}</a></li>
+            <li ng-if="resource_notes">{{resource.notes}}</li>
+        </ul>
+    </div>
 </div>
