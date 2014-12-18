@@ -62,36 +62,38 @@
     <h5>Activities & Structures</h5>
     <div ng-repeat="resource in resources">
 
-        <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="resourceForm.$show()" ng-hide="resourceForm.$visible">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-        </button>
 
         {{resource.type_label}}
-        <form editable-form name="resourceForm" onbeforesave="updateResource(resource.id, $data)">
         <ul>
-            <li>
-                <span e-title="Complete?" editable-checkbox="resource.complete">
+            <li class="resource-content-li">
+                <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="form.$show()" ng-hide="form.$visible">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+                </button>
+                <span onbeforesave="updateResource(resource.id, $data)" e-form="form" e-title="Complete?" editable-checkbox="resource.complete">
                     {{resource.complete && 'Complete: Yes' || 'Complete: No'}}
                 </span>
             </li>
-            <li ng-if="resource.url">
-                <a e-style="width:100%" editable-text="resource.url" href="{{resource.url}}">{{resource.url}}</a>
+
+
+            <li class="resource-content-li" ng-if="resource.url">
+                <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="form2.$show()" ng-hide="form2.$visible">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+                </button>
+
+                <a  onbeforesave="updateResource(resource.id, $data)" e-type="url" e-style="width:200%" e-form="form2" editable-text="resource.url" href="{{resource.url}}">{{resource.url}}</a>
             </li>
-            <li ng-if="resource.notes">
-                <span editable-text="resource.notes" e-width="100%">{{resource.notes}}</span>
+
+
+            <li class="resource-content-li" ng-if="resource.notes">
+                <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="form3.$show()" ng-hide="form3.$visible">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+                </button>
+
+                <span onbeforesave="updateResource(resource.id, $data)" e-form="form3" editable-text="resource.notes" e-style="width: 200%">{{resource.notes}}</span>
             </li>
+
+
         </ul>
-
-          <span ng-show="resourceForm.$visible">
-            <button type="submit" class="btn btn-primary btn-xs" ng-disabled="resourceForm.$waiting">
-              Save
-            </button>
-            <button type="button" class="btn btn-default btn-xs" ng-disabled="resourceForm.$waiting" ng-click="resourceForm.$cancel()">
-              Cancel
-            </button>
-          </span>
-
-        </form>
 
     </div>
 </div>

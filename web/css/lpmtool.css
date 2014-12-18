@@ -9,8 +9,13 @@ h5 {
     font-size: 1.1em;
 }
 
+.resource-content-li {
+     border-bottom: 0px solid #ccc;
+     width: 110%;
+}
+
 .editable-wrap {
-    width: 100%;
+    /*width: 180%;*/
 }
 .section-head {
     margin-bottom: 5px;
