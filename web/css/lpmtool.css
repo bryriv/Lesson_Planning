@@ -9,6 +9,10 @@ h5 {
     font-size: 1.1em;
 }
 
+.resource-content-div {
+    margin-bottom: 30px;
+}
+
 .resource-content-li {
      border-bottom: 0px solid #ccc;
      width: 110%;

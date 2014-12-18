@@ -31,8 +31,11 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
             });
         };
         $scope.updateResource = function(id, data) {
-            console.log(id);
-            console.log(data);
+            var update = PlanResources.update({planId: $scope.plan.id, resourceId: id}, data, function(saveResponse) {
+                if (saveResponse.message === 'OK') {
+                    return true;
+                }
+            });
         };
         $scope.updateURLcheck = function(id, data) {
             if (data === undefined) {

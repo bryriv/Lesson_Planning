@@ -117,6 +117,30 @@ put '/plans/:id/sections/:section_id' => sub {
         $self->render(json => { message => 'Fail' });
 };
 
+put '/plans/:id/resources/:resource_id' => sub {
+    my $self = shift;
+    # planid not needed, so I guess I "could" have created entry point /sections/:id
+    # not sure which is more "REST" compliant
+    my $resource_id = $self->stash('resource_id');
+    my $data = $self->req->body;
+    my $hash = decode_json($data);
+
+    my $rs = $self->db->resultset('Resource')->find($resource_id);
+    my $update = $rs->update($hash);
+
+    my $update_success = 1;
+    for my $key (keys %$hash) {
+        if ($hash->{$key} ne $update->get_column($key)) {
+            $update_success = 0;
+            last;
+        }
+    }
+
+    return $update_success ?
+        $self->render(json => { message => 'OK' }) :
+        $self->render(json => { message => 'Fail' });
+};
+
 post '/plans' => sub {
     my $self = shift;
     my $data = $self->req->body;

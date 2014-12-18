@@ -16,21 +16,24 @@
 <hr>
 <div>
     <h5>Knowledge & Skills</h5>
-    <div class="outline">
+    <div class="section-content-div">
         <strong>{{plan.topic}}</strong>: {{plan.ks}}
     </div>
+    <hr>
 </div>
 <div>
     <h5>Student Expectations</h5>
-    <div class="outline">
+    <div class="section-content-div">
         {{plan.se | capitalize}}
     </div>
+    <hr>
 </div>
 <div>
     <h5>Processing Standard</h5>
-    <div class="outline">
+    <div class="section-content-div">
         {{plan.ps_alpha}} - {{plan.ps | capitalize}}
     </div>
+    <hr>
 </div>
 <div ng-show="verbs.length">
     <h5>Verbs</h5>
@@ -39,6 +42,7 @@
             <li ng-repeat="verb in verbs">{{verb.verb}}</li>
         </ul>
     </div>
+    <hr>
 </div>
 
 
@@ -60,10 +64,10 @@
 
 <div ng-show="resources.length">
     <h5>Activities & Structures</h5>
-    <div ng-repeat="resource in resources">
+    <div class="resource-content-div" ng-repeat="resource in resources">
 
         <form editable-form name="editableForm" onbeforesave="updateResource(resource.id, $data)">
-        <button type="button" class="btn btn-default btn-xs" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+        <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
             <span class="glyphicon glyphicon-edit" aria-hidden="true" >
         </button>
         {{resource.type_label}}
