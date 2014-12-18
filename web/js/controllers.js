@@ -29,11 +29,16 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
                     return true;
                 }
             });
-        }
+        };
         $scope.updateResource = function(id, data) {
             console.log(id);
             console.log(data);
-        }
+        };
+        $scope.updateURLcheck = function(id, data) {
+            if (data === undefined) {
+                return "Not a valid URL";
+            }
+        };
 
         // date picker hack 
         $scope.picker = {opened: false};

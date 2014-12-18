@@ -62,37 +62,40 @@
     <h5>Activities & Structures</h5>
     <div ng-repeat="resource in resources">
 
-
+        <form editable-form name="editableForm" onbeforesave="updateResource(resource.id, $data)">
+        <button type="button" class="btn btn-default btn-xs" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true" >
+        </button>
         {{resource.type_label}}
+
         <ul>
             <li class="resource-content-li">
-                <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="form.$show()" ng-hide="form.$visible">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-                </button>
-                <span onbeforesave="updateResource(resource.id, $data)" e-form="form" e-title="Complete?" editable-checkbox="resource.complete">
+                <span e-name="complete" e-title="Complete?" editable-checkbox="resource.complete">
                     {{resource.complete && 'Complete: Yes' || 'Complete: No'}}
                 </span>
             </li>
 
 
             <li class="resource-content-li" ng-if="resource.url">
-                <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="form2.$show()" ng-hide="form2.$visible">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-                </button>
-
-                <a  onbeforesave="updateResource(resource.id, $data)" e-type="url" e-style="width:200%" e-form="form2" editable-text="resource.url" href="{{resource.url}}">{{resource.url}}</a>
+                <a onbeforesave="updateURLcheck(resource.id, $data)" e-name="url" e-type="url" e-style="width:300%" editable-text="resource.url" href="{{resource.url}}">{{resource.url}}</a>
             </li>
 
 
             <li class="resource-content-li" ng-if="resource.notes">
-                <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="form3.$show()" ng-hide="form3.$visible">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-                </button>
-
-                <span onbeforesave="updateResource(resource.id, $data)" e-form="form3" editable-text="resource.notes" e-style="width: 200%">{{resource.notes}}</span>
+                <span e-name="notes" editable-text="resource.notes" e-style="width: 300%">{{resource.notes}}</span>
             </li>
 
-
+            <!-- buttons to submit / cancel form -->
+            <div class="buttons">
+              <span ng-show="editableForm.$visible">
+                <button type="submit" class="btn btn-primary btn-xs" ng-disabled="editableForm.$waiting">
+                  Save
+                </button>
+                <button type="button" class="btn btn-default btn-xs" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+                  Cancel
+                </button>
+              </span>
+            </div>
         </ul>
 
     </div>
