@@ -11,13 +11,42 @@ lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
     }
 ]);
 
-lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$routeParams', 'Plans', 'PlanVerbs', 'PlanResources', 'PlanSections',
-    function($scope, $routeParams, Plans, PlanVerbs, PlanResources, PlanSections) {
+lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', 'Plans', 'PlanVerbs', 'PlanResources', 'PlanSections',
+    function($scope, $timeout, $routeParams, Plans, PlanVerbs, PlanResources, PlanSections) {
         $scope.plan = Plans.get({planId: $routeParams.planId}, function(plan) {
+            // $scope.plan.plan_d = "2014-12-25";
             $scope.verbs = PlanVerbs.query({planId: $routeParams.planId});
-            $scope.resources = PlanResources.query({planId: $routeParams.planId});
             $scope.sections = PlanSections.query({planId: $routeParams.planId});
-        })
+            $scope.resources = PlanResources.query({planId: $routeParams.planId}, function(getResp) {
+                getResp.forEach(function(resource) {
+                    resource.complete = (resource.complete=="0") ? false : true;
+                });
+            });
+        });
+        $scope.updateSection = function (id, data) {
+            var update = PlanSections.update({planId: $scope.plan.id, sectionId: id}, {content: data}, function(saveResponse) {
+                if (saveResponse.message === 'OK') {
+                    return true;
+                }
+            });
+        }
+        $scope.updateResource = function(id, data) {
+            console.log(id);
+            console.log(data);
+        }
+
+        // date picker hack 
+        $scope.picker = {opened: false};
+        $scope.openpicker = function() {
+            $timeout(function() {
+                $scope.picker.opened = true;
+            });
+        };
+        $scope.closepicker = function() {
+            $timeout(function() {
+                $scope.picker.opened = false;
+            });
+        };
     }
 ]);
 
@@ -31,6 +60,7 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$r
         };
 
         $scope.createNewPlan = function() {
+            console.log('form submitted');
             // $scope.plan.payload = {};
             // $scope.plan.payload.plan_d = $filter('date')($scope.plan.plan_date, 'yyyy-MM-dd');
             // $scope.plan.payload.tek_id = $scope.plan.tek.id;

@@ -2,6 +2,8 @@
 
 var lpmtApp = angular.module('lmptApp', [
     'ngRoute',
+    'xeditable',
+    'ui.bootstrap',
     'lpmtControllers',
     'lpmtFilters',
     'lpmtServices'
@@ -29,3 +31,6 @@ lpmtApp.config(['$routeProvider', '$locationProvider',
     }
 ]);
 
+lpmtApp.run(function(editableOptions) {
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});

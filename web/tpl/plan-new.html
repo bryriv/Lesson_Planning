@@ -1,12 +1,12 @@
 <div>
     <h3>New Lesson Plan</h3>
     <hr>
-    <form role="form" name="new_plan" ng-submit="createNewPlan()" id='new_plan_form'>
+    <form role="form" name="newPlanForm" id='new_plan_form'>
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="plan_d">Plan Date</label>
                 <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="plan.plan_date" is-open="opened" min-date="'2013-12-30'" max-date="'2020-12-30'" date-disabled="disabled(date, mode)" ng-required="true" datepicker-options="dateOptions" close-text="Close" />
+                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="plan.plan_date" is-open="opened" min-date="'2013-12-30'" max-date="'2020-12-30'" date-disabled="disabled(date, mode)"  datepicker-options="dateOptions" close-text="Close" ng-required="true" placeholder='Required' />
                     <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
                 </p>
             </div>
@@ -14,8 +14,8 @@
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="tek">TEK</label>
-                    <select class="form-control" ng-model="plan.tek" ng-options="tek as tek.label group by tek.grade for tek in teks">
-                        <option value="">-- choose TEK --</option>
+                    <select ng-required="true" class="form-control" ng-model="plan.tek" ng-options="tek as tek.label group by tek.grade for tek in teks">
+                        <option value="">-- TEK - Required --</option>
                     </select>
             </div>
         </div>
@@ -38,8 +38,8 @@
         <div class="row fixed-div-height-75">
             <div class="form-group col-md-12">
                 <label for="ps">Processing Standard</label>
-                    <select class="form-control" ng-model="plan.ps" ng-options="item_ps.alpha + ' - ' + item_ps.content for item_ps in ps">
-                        <option value="">-- choose Processing Standard --</option>
+                    <select ng-required="true" class="form-control" ng-model="plan.ps" ng-options="item_ps.alpha + ' - ' + item_ps.content for item_ps in ps">
+                        <option value="">-- Processing Standard - Required --</option>
                     </select>
                 <p>
                     <div class='outline' ng-if="plan.ps">
@@ -133,14 +133,14 @@
                     <label><input type="checkbox" value="" ng-model="plan.resources.exit_ticket.complete">Exit Ticket</label>
                 </div>
                 <div class="activities-div">
-                    <input type="text" class='form-control input-sm' placeholder="Exit Ticket Dropbox link" name="exit_ticket_url" ng-model="plan.resources.exit_ticket.url">
+                    <input type="url" class='form-control input-sm' placeholder="Exit Ticket Dropbox link" name="exit_ticket_url" ng-model="plan.resources.exit_ticket.url">
                 </div>
 
                 <div class="checkbox">
                     <label><input type="checkbox" value="" ng-model="plan.resources.flipchart.complete">Flipchart</label>
                 </div>
                 <div class="activities-div">
-                    <input type="text" class='form-control input-sm' placeholder="Flipchart Dropbox link" name="flipchart_url" ng-model="plan.resources.flipchart.url">
+                    <input type="url" class='form-control input-sm' placeholder="Flipchart Dropbox link" name="flipchart_url" ng-model="plan.resources.flipchart.url">
                 </div>
                 <div class="activities-div activities-spacing">
                     <input type="text" class='form-control input-sm' placeholder="Flipchart notes" name="flipchart_note" ng-model="plan.resources.flipchart.notes">
@@ -150,7 +150,7 @@
                     <label><input type="checkbox" value="" ng-model="plan.resources.guided_notes.complete">Guided Notes</label>
                 </div>
                 <div class="activities-div">
-                    <input type="text" class='form-control input-sm' placeholder="Guided Notes Dropbox link" name="guided_notes_url" ng-model="plan.resources.guided_notes.url">
+                    <input type="url" class='form-control input-sm' placeholder="Guided Notes Dropbox link" name="guided_notes_url" ng-model="plan.resources.guided_notes.url">
                 </div>
                 <div class="activities-div activities-spacing">
                     <input type="text" class='form-control input-sm' placeholder="Guided Notes info" name="guided_notes_info" ng-model="plan.resources.guided_notes.notes">
@@ -160,7 +160,7 @@
                     <label><input type="checkbox" value="" ng-model="plan.resources.homework.complete">Homework</label>
                 </div>
                 <div class="activities-div">
-                    <input type="text" class='form-control input-sm' placeholder="Homework Dropbox link" name="homework_url" ng-model="plan.resources.homework.url">
+                    <input type="url" class='form-control input-sm' placeholder="Homework Dropbox link" name="homework_url" ng-model="plan.resources.homework.url">
                 </div>
                 <div class="activities-div activities-spacing">
                     <input type="text" class='form-control input-sm' placeholder="Homework notes" name="homework_note" ng-model="plan.resources.homework.notes">
@@ -170,7 +170,7 @@
                     <label><input type="checkbox" value="" ng-model="plan.resources.homework_key.complete">Homework Key</label>
                 </div>
                 <div class="activities-div">
-                    <input type="text" class='form-control input-sm' placeholder="Homework Key Dropbox link" name="homework_key_url" ng-model="plan.resources.homework_key.url">
+                    <input type="url" class='form-control input-sm' placeholder="Homework Key Dropbox link" name="homework_key_url" ng-model="plan.resources.homework_key.url">
                 </div>
                 <div class="activities-div activities-spacing">
                     <input type="text" class='form-control input-sm' placeholder="Homework Key notes" name="homework_key_note" ng-model="plan.resources.homework_key.notes">
@@ -185,7 +185,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" ng-disabled="newPlanForm.$invalid" ng-click="createNewPlan()" class="btn btn-primary">Submit</button>
         <button type="reset" class="btn btn-default" ng-click="resetForm()">Clear</button>
     </form>
 </div>

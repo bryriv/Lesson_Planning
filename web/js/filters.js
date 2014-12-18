@@ -27,3 +27,10 @@ lpmtFilters.filter('lineBreak', function($sce){
         return $sce.trustAsHtml(msg);
     }
 });
+
+lpmtFilters.filter('intTobool', function(){
+    return function(flag) {
+        return (flag=="0") ? false : true
+    }
+});
+

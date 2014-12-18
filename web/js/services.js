@@ -13,7 +13,8 @@ lpmtServices.factory('Plans', ['$resource',
     function($resource) {
         return $resource('http://192.168.1.167/api/plans/:planId', {}, {
             query: { method: 'GET', isArray: true},
-            create: { method: 'POST'}
+            create: { method: 'POST'},
+            update: { method: 'PUT'}
         });
     }
 ]);
@@ -56,8 +57,9 @@ lpmtServices.factory('PlanResources', ['$resource',
 
 lpmtServices.factory('PlanSections', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/plans/:planId/sections', {}, {
-            query: {isArray: true}
+        return $resource('http://192.168.1.167/api/plans/:planId/sections/:sectionId', {}, {
+            query: { method: 'GET', isArray: true},
+            update: { method: 'PUT'}
         });
     }
 ]);

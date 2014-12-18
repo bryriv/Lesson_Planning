@@ -1,6 +1,16 @@
 <div>
     <h3>TEK {{plan.tek_label}}</h3>
-    <h4>{{plan.plan_d | date: 'MMM-dd yyyy EEE'}}</h4>
+    <h4>
+<!--         <span editable-bsdate="plan.plan_d" 
+                        onshow="openpicker()"
+                onhide="closepicker()"
+                e-is-open="picker.opened" e-form="textBtnForm" e-datepicker-popup="MM/dd/yyyy"> -->
+        {{plan.plan_d}}
+<!--         </span>
+        <button class="btn btn-default" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+            edit
+        </button> -->
+    </h4>
     <h4>Grade: {{plan.grade}}</h4>
 </div>
 <hr>
@@ -17,6 +27,12 @@
     </div>
 </div>
 <div>
+    <h5>Processing Standard</h5>
+    <div class="outline">
+        {{plan.ps_alpha}} - {{plan.ps | capitalize}}
+    </div>
+</div>
+<div ng-show="verbs.length">
     <h5>Verbs</h5>
     <div>
         <ul>
@@ -24,29 +40,58 @@
         </ul>
     </div>
 </div>
-<div>
-    <h5>Processing Standard</h5>
-    <div class="outline">
-        {{plan.ps_alpha}} - {{plan.ps | capitalize}}
+
+
+<div class="" ng-repeat="section in sections">
+    <div class="section-head">
+        <h5 style="display:inline">
+    {{section.type_label}}
+        </h5>
+        <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="form.$show()" ng-hide="form.$visible">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+        </button>
     </div>
-</div>
-<div ng-repeat="section in sections">
-    <h5>{{section.type_label}}</h5>
-    <div class="outline">
-        <p ng-bind-html="section.content | lineBreak"></p>
+    <div class="section-content-div">
+        <span onbeforesave="updateSection(section.id, $data)" class="plan-section-static" e-form="form" editable-textarea="section.content" e-rows="4" e-cols="80" ng-bind-html="section.content | lineBreak"></span>
     </div>
+    <hr>
 </div>
-<div>
+
+
+<div ng-show="resources.length">
     <h5>Activities & Structures</h5>
     <div ng-repeat="resource in resources">
+
+        <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="resourceForm.$show()" ng-hide="resourceForm.$visible">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+        </button>
+
         {{resource.type_label}}
+        <form editable-form name="resourceForm" onbeforesave="updateResource(resource.id, $data)">
         <ul>
-            <li>Complete: 
-                <span ng-show="resource.complete"><strong>Yes</strong></span>
-                <span ng-hide="resource.complete"><strong>No</strong></span>
+            <li>
+                <span e-title="Complete?" editable-checkbox="resource.complete">
+                    {{resource.complete && 'Complete: Yes' || 'Complete: No'}}
+                </span>
             </li>
-            <li ng-if="resource.url"><a href="{{resource.url}}">{{resource.url}}</a></li>
-            <li ng-if="resource_notes">{{resource.notes}}</li>
+            <li ng-if="resource.url">
+                <a e-style="width:100%" editable-text="resource.url" href="{{resource.url}}">{{resource.url}}</a>
+            </li>
+            <li ng-if="resource.notes">
+                <span editable-text="resource.notes" e-width="100%">{{resource.notes}}</span>
+            </li>
         </ul>
+
+          <span ng-show="resourceForm.$visible">
+            <button type="submit" class="btn btn-primary btn-xs" ng-disabled="resourceForm.$waiting">
+              Save
+            </button>
+            <button type="button" class="btn btn-default btn-xs" ng-disabled="resourceForm.$waiting" ng-click="resourceForm.$cancel()">
+              Cancel
+            </button>
+          </span>
+
+        </form>
+
     </div>
 </div>

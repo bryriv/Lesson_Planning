@@ -8,6 +8,7 @@ web/js/app.js.learning
 web/css/blog.css
 *.ember
 commit_message.log
+xeditable.*
 
 # Compiled source #
 ###################

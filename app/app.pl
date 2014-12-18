@@ -93,38 +93,29 @@ get '/plans/:id/sections' => sub {
     );
 };
 
-# get '/plans/:id/sections' => sub {
-#     my $self = shift;
-#     my $plan_id = $self->stash('id');
-#     # select * from section s join enum_section_type e on e.id = s.enum_section_type_id where s.plan_id = 41;
-#     my @data = $self->db->resultset('Section')->search(
-#         {   'plan_id' => $plan_id   },
-#         {
-#             join => 'enum_section_type',
-#             '+select' => ['enum_section_type.type'],
-#             '+as' => ['type']
-#         }
-#     )->all;
+put '/plans/:id/sections/:section_id' => sub {
+    my $self = shift;
+    # planid not needed, so I guess I "could" have created entry point /sections/:id
+    # not sure which is more "REST" compliant
+    my $section_id = $self->stash('section_id');
+    my $data = $self->req->body;
+    my $hash = decode_json($data);
 
-#     # put data in format easier for UI
-#     my $hash = {};
-#     my @hash = map { {$_->get_columns} } @data;
-#     for my $chunk (@hash) {
-#         $hash->{$chunk->{type}} = $chunk;
-#     }
-#     print STDERR Dumper $hash;
+    my $rs = $self->db->resultset('Section')->find($section_id);
+    my $update = $rs->update($hash);
 
-#     $self->respond_to(
-#         any  => {json => $hash},
-#     );
+    my $update_success = 1;
+    for my $key (keys %$hash) {
+        if ($hash->{$key} ne $update->get_column($key)) {
+            $update_success = 0;
+            last;
+        }
+    }
 
-#     # $self->respond_to(
-#     #     any  => {json => [
-#     #         map { {$_->get_columns} } @data
-#     #     ]},
-#     # );
-# };
-
+    return $update_success ?
+        $self->render(json => { message => 'OK' }) :
+        $self->render(json => { message => 'Fail' });
+};
 
 post '/plans' => sub {
     my $self = shift;
@@ -145,16 +136,12 @@ post '/plans' => sub {
     my $plan = $self->db->resultset('Plan')->create($hash);
     if($plan->id) {
         return $self->render(
-            json => {
-                result => $plan->id, 
-                message => 'OK',
-
-            }
+            json => {   result => $plan->id, message => 'OK' }
         );
     }
     else {
         return $self->render(
-            json => {result => '0', message => 'Create plan failed.'}
+            json => {   result => '0', message => 'Create plan failed.'}
         );
     }
 };
