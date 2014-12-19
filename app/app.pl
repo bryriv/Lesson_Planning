@@ -212,7 +212,10 @@ get '/ps/:id' => sub {
 # verbs
 get '/verbs' => sub {
     my $self = shift;
-    my @verbs = $self->db->resultset('Verb')->all();
+    my @verbs = $self->db->resultset('Verb')->search(
+        {},
+        {   order_by => {-asc => 'verb'} }
+    )->all();
     $self->respond_to(
         any  => {json => [
             map { {$_->get_columns} } @verbs
