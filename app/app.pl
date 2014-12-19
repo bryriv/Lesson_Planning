@@ -42,7 +42,8 @@ get '/plans/:id/verbs' => sub {
         {
             join => 'verb',
             '+select' => ['verb.verb'],
-            '+as' => ['verb']
+            '+as' => ['verb'],
+            order_by => {-asc => 'verb.verb'}
         }
     )->all;
     $self->respond_to(
