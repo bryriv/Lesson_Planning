@@ -398,7 +398,7 @@ create table resource (
 create table section (
     id int(10) unsigned not null auto_increment,
     plan_id int(10) unsigned not null,
-    content text not null,
+    content text,
     enum_section_type_id int(10) unsigned not null,
     primary key (id),
     key FK_section_plan (plan_id),
