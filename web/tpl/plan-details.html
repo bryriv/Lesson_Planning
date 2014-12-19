@@ -37,13 +37,18 @@
 </div>
 
 <!-- VERBS -->
-<div ng-show="verbs.length">
-    <h5>Verbs</h5>
-    <div>
-        <ul>
-            <li ng-repeat="verb in verbs">{{verb.verb}}</li>
-        </ul>
+<div>
+    <div class="section-head">
+        <h5 style="display:inline">Verbs</h5>
+        <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="verb.$show()" ng-hide="verb.$visible">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+        </button>
     </div>
+    <div class="verb-content-div">
+        <span onbeforesave="updateVerbs($data)" e-size=10 e-style="width:580px" e-form="verb" editable-select="planVerbIds" onshow="loadVerbs()" e-ng-options="verb.id as verb.verb for verb in allverbs" e-multiple>
+            {{ selectedVerbs }}
+        </span>
+   </div>
     <hr>
 </div>
 

@@ -9,6 +9,15 @@ h5 {
     font-size: 1.1em;
 }
 
+.editable-empty {
+    color: #000 !important;
+    font-style: normal !important;
+}
+
+.verb-content-div {
+    margin-left: 16px;
+}
+
 .resource-content-div {
     margin-bottom: 30px;
 }

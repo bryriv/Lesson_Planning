@@ -87,17 +87,6 @@ get '/plans/:id/sections' => sub {
         }
     )->all;
 
-    # my $sects = {};
-    # for my $data (@data) {
-    #     my $hash = {$data->get_columns};
-    #     $sects->{$hash->{type}} = $hash;
-    # }
-    # print Dumper $sects;
-
-    # $self->respond_to(
-    #     any  => {json => $sects},
-    # );
-
     $self->respond_to(
         any  => {json => [
             map { {$_->get_columns} } @data
@@ -150,6 +139,42 @@ put '/plans/:id/resources/:resource_id' => sub {
 
     return $update_success ?
         $self->render(json => { message => 'OK' }) :
+        $self->render(json => { message => 'Fail' });
+};
+
+put '/plans/:id/verbs' => sub {
+    my $self = shift;
+    my $plan_id = $self->stash('id');
+    my $data = $self->req->body;
+    my $hash = decode_json($data);
+    my $verbs = $hash->{verbs};
+
+    my $update_success = 1;
+
+    my $verb_map_rs = $self->db->resultset('VerbPlanMap');
+    my $delete = $verb_map_rs->search(
+        {   plan_id => $plan_id   },
+    )->delete;
+
+    # if new verbs, get them in arrayref of hashrefs
+    my $new_verbs = [];
+    if ($verbs) {
+        my @data = $self->db->resultset('Verb')->search(
+                {   id => {-in => $verbs}    },
+                {   order_by => {-asc => 'verb'} }
+        )->all;
+        $new_verbs = [map { {$_->get_columns} } @data];
+
+        my @verb_data;
+        for my $verb_id (@{$verbs}) {
+            push @verb_data, {plan_id => $plan_id, verb_id => $verb_id};
+        }
+        # void context. need to handle error condition, but it will probably 500 anyway
+        $verb_map_rs->populate(\@verb_data);
+    }
+
+    return $update_success ?
+        $self->render(json => { message => 'OK', new_verbs => $new_verbs }) :
         $self->render(json => { message => 'Fail' });
 };
 

@@ -43,7 +43,10 @@ lpmtServices.factory('Verbs', ['$resource',
 
 lpmtServices.factory('PlanVerbs', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/plans/:planId/verbs');
+        return $resource('http://192.168.1.167/api/plans/:planId/verbs', {}, {
+            query: { method: 'GET', isArray: true},
+            update: { method: 'PUT'}
+        });
     }
 ]);
 

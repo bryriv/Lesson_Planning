@@ -12,11 +12,14 @@ lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
 ]);
 
 lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', 'Plans', 'PlanVerbs', 
-                                                'PlanResources', 'PlanSections',
-    function($scope, $timeout, $routeParams, Plans, PlanVerbs, PlanResources, PlanSections) {
+                                                'PlanResources', 'PlanSections', 'Verbs',
+    function($scope, $timeout, $routeParams, Plans, PlanVerbs, PlanResources, PlanSections, Verbs) {
         $scope.plan = Plans.get({planId: $routeParams.planId}, function(plan) {
             // $scope.plan.plan_d = "2014-12-25";
-            $scope.verbs = PlanVerbs.query({planId: $routeParams.planId});
+            $scope.verbs = PlanVerbs.query({planId: $routeParams.planId}, function(verbs) {
+                $scope.selectedVerbs = $scope.showVerbs(verbs);
+                $scope.startingVerbs = [1, 2, 3];
+            });
             $scope.sections = PlanSections.query({planId: $routeParams.planId}, function(sections) {
                 sections.forEach(function(section) {
                     section.content = (section.content === null) ? '' : section.content;
@@ -43,10 +46,38 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
                 }
             });
         };
+        $scope.updateVerbs = function(data) {
+            var update = PlanVerbs.update({planId: $scope.plan.id}, {verbs: data}, function(saveResponse) {
+                if (saveResponse.message === 'OK') {
+                    $scope.selectedVerbs = $scope.showVerbs(saveResponse.new_verbs);
+                    return true;
+                }
+            });
+        };
         $scope.updateURLcheck = function(id, data) {
             if (data === undefined) {
                 return "Not a valid URL";
             }
+        };
+        $scope.allverbs = [];
+        $scope.loadVerbs = function() {
+            return $scope.allverbs.length ? null : Verbs.query({}, function(data) {
+                var updatedVerbs = [];
+                data.forEach(function(allverb) {
+                    updatedVerbs.push({id: parseInt(allverb.id, 10), verb: allverb.verb});
+                });
+                $scope.allverbs = updatedVerbs;
+            });
+        };
+        $scope.showVerbs = function(verbs) {
+            var planVerbs = [];
+            var planVerbIds = [];
+            verbs.forEach(function(verb) {
+                planVerbs.push(verb.verb);
+                planVerbIds.push(parseInt(verb.verb_id, 10));
+            });
+            $scope.planVerbIds = planVerbIds;
+            return planVerbs.length ? planVerbs.join(', ') : 'No Verbs';
         };
 
         // date picker hack 
@@ -61,6 +92,11 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
                 $scope.picker.opened = false;
             });
         };
+
+        $scope.$on('newVerb', function() {
+            $scope.allverbs = [];
+            $scope.loadVerbs();
+        });
     }
 ]);
 
