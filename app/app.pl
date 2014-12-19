@@ -86,6 +86,18 @@ get '/plans/:id/sections' => sub {
             order_by => {-asc => 'enum_section_type.sequence'}
         }
     )->all;
+
+    # my $sects = {};
+    # for my $data (@data) {
+    #     my $hash = {$data->get_columns};
+    #     $sects->{$hash->{type}} = $hash;
+    # }
+    # print Dumper $sects;
+
+    # $self->respond_to(
+    #     any  => {json => $sects},
+    # );
+
     $self->respond_to(
         any  => {json => [
             map { {$_->get_columns} } @data
@@ -154,20 +166,12 @@ post '/plans' => sub {
 
     print STDERR Dumper $hash;
 
-    # $self->db->resultset('Plan')->create($hash);
     # return $self->render(json => {result => 999, message => 'OK'});
 
     my $plan = $self->db->resultset('Plan')->create($hash);
-    if($plan->id) {
-        return $self->render(
-            json => {   result => $plan->id, message => 'OK' }
-        );
-    }
-    else {
-        return $self->render(
-            json => {   result => '0', message => 'Create plan failed.'}
-        );
-    }
+    return $plan->id ?
+        $self->render(json => {   result => $plan->id, message => 'OK' }) :
+        $self->render(json => {   result => '0', message => 'Create plan failed.'});
 };
 
 
@@ -179,7 +183,8 @@ get '/teks' => sub {
         any  => {json => [
             map { {$_->get_columns} } @teks
         ]},
-    );};
+    );
+};
 
 get '/teks/:id' => sub {
     my $self = shift;
@@ -254,7 +259,26 @@ post '/verbs' => sub {
     }
 };
 
+# types
+get '/section_types' => sub {
+    my $self = shift;
+    my @teks = $self->db->resultset('EnumSectionType')->all();
+    $self->respond_to(
+        any  => {json => [
+            map { {$_->get_columns} } @teks
+        ]},
+    );
+};
 
+get '/resource_types' => sub {
+    my $self = shift;
+    my @teks = $self->db->resultset('EnumResourceType')->all();
+    $self->respond_to(
+        any  => {json => [
+            map { {$_->get_columns} } @teks
+        ]},
+    );
+};
 
 
 
@@ -271,12 +295,14 @@ helper map_sections => sub {
     my @enum_section_types = $self->db->resultset('EnumSectionType')->all();
     my %enum_section_types = map {$_->{type} => $_->{id}} map {{$_->get_columns}} @enum_section_types;
 
+    # Include all sections even if they're weren't posted
+    # Builds out complete plan
     my @sections;
-    for my $section (keys %{$sections}) {
-        push @sections, 
-            {   enum_section_type_id => $enum_section_types{$section}, 
-                content => $sections->{$section}
-            };
+
+    for my $section_type (keys %enum_section_types) {
+        my $hash->{enum_section_type_id} = $enum_section_types{$section_type};
+        $hash->{content} = $sections->{$section_type} if $sections->{$section_type};
+        push @sections, $hash;
     }
     return \@sections;
 };

@@ -11,12 +11,17 @@ lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
     }
 ]);
 
-lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', 'Plans', 'PlanVerbs', 'PlanResources', 'PlanSections',
+lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', 'Plans', 'PlanVerbs', 
+                                                'PlanResources', 'PlanSections',
     function($scope, $timeout, $routeParams, Plans, PlanVerbs, PlanResources, PlanSections) {
         $scope.plan = Plans.get({planId: $routeParams.planId}, function(plan) {
             // $scope.plan.plan_d = "2014-12-25";
             $scope.verbs = PlanVerbs.query({planId: $routeParams.planId});
-            $scope.sections = PlanSections.query({planId: $routeParams.planId});
+            $scope.sections = PlanSections.query({planId: $routeParams.planId}, function(sections) {
+                sections.forEach(function(section) {
+                    section.content = (section.content === null) ? '' : section.content;
+                });
+            });
             $scope.resources = PlanResources.query({planId: $routeParams.planId}, function(getResp) {
                 getResp.forEach(function(resource) {
                     resource.complete = (resource.complete=="0") ? false : true;
@@ -91,6 +96,7 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$r
             payload.verb_plan_maps = $scope.plan.verbs;
             payload.resources = $scope.plan.resources;
 
+            // console.log(payload.sections);
             var response = Plans.create(payload, function(saveResponse) {
                 if (saveResponse.message === 'OK') {
                     Message.prep('newMessage', "New plan created");

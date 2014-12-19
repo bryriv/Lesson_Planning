@@ -66,6 +66,23 @@ lpmtServices.factory('PlanSections', ['$resource',
     }
 ]);
 
+lpmtServices.factory('PlanSectionTypes', ['$resource',
+    function($resource) {
+        return $resource('http://192.168.1.167/api/section_types', {}, {
+            query: { method: 'GET', isArray: true},
+        });
+    }
+]);
+
+lpmtServices.factory('PlanResourceTypes', ['$resource',
+    function($resource) {
+        return $resource('http://192.168.1.167/api/resource_types', {}, {
+            query: { method: 'GET', isArray: true},
+        });
+    }
+]);
+
+
 lpmtServices.factory("Message", function($rootScope) {
     var appMessage = {};
     appMessage.message = '';
