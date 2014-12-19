@@ -25,6 +25,7 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
             $scope.resources = PlanResources.query({planId: $routeParams.planId}, function(getResp) {
                 getResp.forEach(function(resource) {
                     resource.complete = (resource.complete=="0") ? false : true;
+                    resource.notes = (resource.notes === null) ? 'No Notes' : resource.notes;
                 });
             });
         });

@@ -14,8 +14,9 @@ h5 {
 }
 
 .resource-content-li {
-     border-bottom: 0px solid #ccc;
-     width: 110%;
+    margin-left: 26px;
+/*     border-bottom: 0px solid #ccc;
+     width: 110%;*/
 }
 
 .editable-wrap {

@@ -74,22 +74,23 @@
         </button>
         {{resource.type_label}}
 
-        <ul>
-            <li class="resource-content-li">
+        <div>
+            <div class="resource-content-li">
                 <span e-name="complete" e-title="Complete?" editable-checkbox="resource.complete">
                     {{resource.complete && 'Complete: Yes' || 'Complete: No'}}
                 </span>
-            </li>
+            </div>
 
-
-            <li class="resource-content-li" ng-if="resource.url">
-                <a onbeforesave="updateURLcheck(resource.id, $data)" e-name="url" e-type="url" e-style="width:300%" editable-text="resource.url" href="{{resource.url}}">{{resource.url}}</a>
-            </li>
-
-
-            <li class="resource-content-li" ng-if="resource.notes">
+            <div class="resource-content-li">
                 <span e-name="notes" editable-text="resource.notes" e-style="width: 300%">{{resource.notes}}</span>
-            </li>
+            </div>
+
+
+            <div class="resource-content-li">
+                <span>
+                <a onbeforesave="updateURLcheck(resource.id, $data)" e-name="url" e-type="text" e-style="width:300%" editable-text="resource.url" e-placeholder="Link" e-ng-required="false" href="{{resource.url}}">{{resource.url}}</a>
+                </span>
+            </div>
 
             <!-- buttons to submit / cancel form -->
             <div class="buttons">
@@ -102,7 +103,8 @@
                 </button>
               </span>
             </div>
-        </ul>
+
+        </div>
 
     </div>
 </div>

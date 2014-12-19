@@ -281,8 +281,6 @@ get '/resource_types' => sub {
 };
 
 
-
-
 # helpers
 helper db => sub {
   return Schema->connect($conf->{dsn}, $conf->{dbuser}, $conf->{dbpwd});
@@ -307,6 +305,25 @@ helper map_sections => sub {
     return \@sections;
 };
 
+helper map_resources => sub {
+    my ($self, $resources) = @_;
+
+    # get hash lookup for resource type ids {type => db_id}
+    my @enum_resource_types = $self->db->resultset('EnumResourceType')->all();
+    my %enum_resource_types = map {$_->{type} => $_->{id}} map {{$_->get_columns}} @enum_resource_types;
+
+    my @resources;
+    for my $resource_type (keys %enum_resource_types) {
+        my $hash->{enum_resource_type_id} = $enum_resource_types{$resource_type};
+        for my $attr (keys %{$resources->{$resource_type}}) {
+            $hash->{$attr} = $resources->{$resource_type}{$attr} if $resources->{$resource_type}{$attr};
+        }
+        push @resources, $hash;
+    }
+    return \@resources;
+};
+
+
 helper map_verbs => sub {
     my ($self, $verbs) = @_;
     my @verbs;
@@ -316,52 +333,5 @@ helper map_verbs => sub {
     return \@verbs;
 };
 
-helper map_resources => sub {
-    my ($self, $resources) = @_;
-
-    # get hash lookup for resource type ids {type => db_id}
-    my @enum_resource_types = $self->db->resultset('EnumResourceType')->all();
-    my %enum_resource_types = map {$_->{type} => $_->{id}} map {{$_->get_columns}} @enum_resource_types;
-
-    my @resources;
-    for my $resource (keys %{$resources}) {
-        my $hash->{enum_resource_type_id} = $enum_resource_types{$resource};
-        for my $attr (keys %{$resources->{$resource}}) {
-            $hash->{$attr} = $resources->{$resource}{$attr};
-        }
-        push @resources, $hash;
-    }
-    return \@resources;
-};
-
 app->start;
 
-# get '/plans' => sub {
-#     my $self = shift;
-#     # my @plans = $self->db->resultset('Plan')->search({}, { join => 'primary_tek'});
-#     my @plans = $self->db->resultset('Plan')->search({}, { prefetch => 'primary_tek'});
-#     # my @plans = $self->db->resultset('Plan')->search();
-#     for my $plan (@plans) {
-#         # print STDERR Dumper $plan;
-#         # print STDERR $plan->primary_tek->tek, "\n";
-#         # my %data = $plan->get_inflated_columns;
-#         # print STDERR Dumper \%data;
-#     }
-#     # $self->respond_to(
-#     #     # any  => {json => {"plans" => [
-#     #     #     map { {$_->get_columns} } @plans
-#     #     # ]}},
-#     #     any  => {json => {"plans" => 
-#     #          @plans
-#     #     ]}},
-#     # );
-
-#     my $json = {
-#         json => {
-#             "plans" => [ {"id" => "3", "primary_tek_id" => "2"} ],
-#             "primary_teks" => [ { "id" => "2", "tek" => "9.2A"} ]
-#         }
-#     };
-
-#     $self->respond_to( any => $json);
-# };
