@@ -172,7 +172,6 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$r
             payload.plan_d = $filter('date')($scope.plan.plan_date, 'yyyy-MM-dd');
             payload.tek_summary_id = $scope.plan.tek.id;
             payload.grade = $scope.plan.tek.grade;
-            payload.tek_label = $scope.plan.tek.label;
             payload.proc_standard_id = $scope.plan.ps.id;
             payload.create_d = $filter('date')(new Date(), 'yyyy-MM-dd');
 

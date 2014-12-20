@@ -9,6 +9,8 @@ web/css/blog.css
 *.ember
 commit_message.log
 xeditable.*
+*.log
+*.pid
 
 # Compiled source #
 ###################
