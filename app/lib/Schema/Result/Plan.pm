@@ -48,12 +48,6 @@ __PACKAGE__->table("plan");
   is_foreign_key: 1
   is_nullable: 0
 
-=head2 tek_label
-
-  data_type: 'varchar'
-  is_nullable: 0
-  size: 10
-
 =head2 proc_standard_id
 
   data_type: 'integer'
@@ -88,8 +82,6 @@ __PACKAGE__->add_columns(
     is_foreign_key => 1,
     is_nullable => 0,
   },
-  "tek_label",
-  { data_type => "varchar", is_nullable => 0, size => 10 },
   "proc_standard_id",
   {
     data_type => "integer",
@@ -193,7 +185,6 @@ __PACKAGE__->has_many(
 
 # Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-17 01:48:19
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pt5e2opNkfbrIftK/xNZJg
-
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

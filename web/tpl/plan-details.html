@@ -1,5 +1,23 @@
-<div>
-    <h3>TEK {{plan.tek_label}}</h3>
+<div style="margin-top:30px">
+    <h3 style="display:inline">
+        <span onbeforesave="updatePlan({tek_summary_id: $data})" e-form="tek" editable-select="plan.tek_summary_id" onshow="loadTeks()" e-ng-options="tek.id as tek.label group by tek.grade for tek in teks" e-required>
+        TEK {{plan.tek_label}}
+        </span>
+    </h3>
+        <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="tek.$show()" ng-hide="tek.$visible">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+        </button>
+
+        <button style="float: right" type="button" class="btn btn-default" title="Delete this plan" ng-click="">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
+        </button>
+        <button style="float: right" type="button" class="btn btn-default" title="Export as PDF" ng-click="">
+            <span class="glyphicon glyphicon-export" aria-hidden="true" ></span>
+        </button>
+<!--         <button style="float: right" type="button" class="btn btn-default" title="Clone Plan" ng-click="">
+            <span class="glyphicon glyphicon-export" aria-hidden="true" ></span>
+        </button>
+ -->    
     <h4>
 <!--         <span editable-bsdate="plan.plan_d" 
                         onshow="openpicker()"
@@ -31,9 +49,16 @@
 
 <!-- PROCESSING_STANDARD -->
 <div>
-    <h5>Processing Standard</h5>
+    <div class="section-head">
+        <h5 style="display:inline">Processing Standard</h5>
+        <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="proc_standard.$show()" ng-hide="proc_standard.$visible">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+        </button>
+    </div>
     <div class="section-content-div">
-        {{plan.ps_alpha}} - {{plan.ps | capitalize}}
+        <span onbeforesave="updatePlan({proc_standard_id: $data})" e-style="width:580px" e-form="proc_standard" editable-select="plan.ps_id" onshow="loadProcStandards()" e-ng-options="ps.id as ps.alpha + ' - ' + ps.content for ps in procStandards" e-required>
+            {{plan.ps_alpha}} - {{plan.ps | capitalize}}
+        </span>
     </div>
     <hr>
 </div>

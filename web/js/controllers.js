@@ -12,9 +12,9 @@ lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
 ]);
 
 lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', 'Plans', 'PlanVerbs', 
-                                                'PlanResources', 'PlanSections', 'Verbs',
-    function($scope, $timeout, $routeParams, Plans, PlanVerbs, PlanResources, PlanSections, Verbs) {
-        $scope.plan = Plans.get({planId: $routeParams.planId}, function(plan) {
+                                                'PlanResources', 'PlanSections', 'Verbs', 'PS', 'Teks',
+    function($scope, $timeout, $routeParams, Plans, PlanVerbs, PlanResources, PlanSections, Verbs, PS, Teks) {
+        $scope.plan = Plans.get({planId: $routeParams.planId, query_type: 'complete'}, function(plan) {
             // $scope.plan.plan_d = "2014-12-25";
             $scope.verbs = PlanVerbs.query({planId: $routeParams.planId}, function(verbs) {
                 $scope.selectedVerbs = $scope.showVerbs(verbs);
@@ -78,6 +78,32 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
             });
             $scope.planVerbIds = planVerbIds;
             return planVerbs.length ? planVerbs.join(', ') : 'No Verbs';
+        };
+
+        $scope.procStandards = [];
+        $scope.loadProcStandards = function() {
+            return $scope.procStandards.length ? null : PS.query({}, function(data) {
+                $scope.procStandards = data;
+            });
+        };
+        $scope.teks = [];
+        $scope.loadTeks = function() {
+            return $scope.teks.length ? null : Teks.query({}, function(data) {
+                $scope.teks = data;
+            });
+        };
+        $scope.updatePlan = function(data) {
+            var update = Plans.update({planId: $scope.plan.id}, data, function(saveResponse) {
+                if (saveResponse.message === 'OK') {
+                    $scope.plan = saveResponse.plan;
+                    // $scope.plan.ps = saveResponse.plan.ps;
+                    // $scope.plan.ps_alpha = saveResponse.plan.ps_alpha;
+                    // $scope.plan.ps_id = saveResponse.plan.ps_id;
+                    // $scope.plan.tek_label = saveResponse.plan.tek_label;
+
+                    return true;
+                }
+            });
         };
 
         // date picker hack 

@@ -11,27 +11,56 @@ use Data::Dumper;
 # plans
 get '/plans' => sub {
     my $self = shift;
-    my @plans = $self->db->resultset('Plan')->all();
+    my $query_type = $self->param('query_type') || 'simple';
+    my $plan_rs = $self->db->resultset('Plan');
+
+    my $plans = $query_type eq 'complete' ? $plan_rs->plan_complete() : 
+                $plan_rs->plan_simple();
+
     $self->respond_to(
-        any  => {json => [
-            map { {$_->get_columns} } @plans
-        ]},
+        any  => {json => $plans},
     );
 };
 
 get '/plans/:id' => sub {
     my $self = shift;
-    my $plan = $self->db->resultset('Plan')->find(
-        {   'me.id' => $self->stash('id')   },
-        {
-            join => ['proc_standard', 'tek_summary'],
-            '+select' => ['proc_standard.alpha', 'proc_standard.content', 'tek_summary.topic', 'tek_summary.ks', 'tek_summary.se'],
-            '+as' => ['ps_alpha', 'ps', 'topic', 'ks', 'se']
-        }
-    );
+    my $query_type = $self->param('query_type') || 'simple';
+    my $plan_rs = $self->db->resultset('Plan');
+
+    my $plan = $query_type eq 'complete' ? $plan_rs->plan_complete($self->stash('id')) : 
+                $plan_rs->plan_simple($self->stash('id'));
+
     $self->respond_to(
-        any  => {json => {$plan->get_columns}},
+        any  => {json => $plan},
     );
+};
+
+put '/plans/:id/' => sub {
+    my $self = shift;
+    my $plan_id = $self->stash('id');
+    my $data = $self->req->body;
+    my $hash = decode_json($data);
+    # print STDERR Dumper $hash;
+
+    my $update_success = 1;
+    my $rs = $self->db->resultset('Plan');
+
+    my $update = $rs->search({ id => $plan_id})->update($hash);
+
+    # my $plan = $rs->find($plan_id);
+    # my $update = $plan->update($hash);
+    #### $update = $update->discard_changes(); # call on results, note resultset
+    # for my $key (keys %$hash) {
+    #     if ($hash->{$key} ne $update->get_column($key)) {
+    #         $update_success = 0;
+    #         last;
+    #     }
+    # }
+
+    # need to figure out how to check return values properly
+    return $update_success ?
+        $self->render(json => { message => 'OK', plan => $rs->plan_complete($plan_id)}) :
+        $self->render(json => { message => 'Fail' });
 };
 
 get '/plans/:id/verbs' => sub {

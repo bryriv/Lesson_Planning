@@ -332,7 +332,6 @@ create table plan (
     plan_d date not null,
     grade tinyint not null,
     tek_summary_id int(10) unsigned not null,
-    tek_label varchar(10) not null,
     proc_standard_id int(10) unsigned not null,
     create_d date not null,
     primary key (id),
