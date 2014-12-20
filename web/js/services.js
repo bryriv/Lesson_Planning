@@ -14,7 +14,8 @@ lpmtServices.factory('Plans', ['$resource',
         return $resource('http://192.168.1.167/api/plans/:planId', {}, {
             query: { method: 'GET', isArray: true},
             create: { method: 'POST'},
-            update: { method: 'PUT'}
+            update: { method: 'PUT'},
+            deletePlan: { method: 'DELETE'}
         });
     }
 ]);

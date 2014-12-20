@@ -11,9 +11,10 @@ lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
     }
 ]);
 
-lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', 'Plans', 'PlanVerbs', 
-                                                'PlanResources', 'PlanSections', 'Verbs', 'PS', 'Teks',
-    function($scope, $timeout, $routeParams, Plans, PlanVerbs, PlanResources, PlanSections, Verbs, PS, Teks) {
+lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', '$modal', '$location', 'Message', 
+                                                'Plans', 'PlanVerbs', 'PlanResources', 'PlanSections', 'Verbs', 'PS', 'Teks',
+    function($scope, $timeout, $routeParams, $modal, $location, Message, Plans, PlanVerbs, 
+                    PlanResources, PlanSections, Verbs, PS, Teks) {
         $scope.plan = Plans.get({planId: $routeParams.planId, query_type: 'complete'}, function(plan) {
             // $scope.plan.plan_d = "2014-12-25";
             $scope.verbs = PlanVerbs.query({planId: $routeParams.planId}, function(verbs) {
@@ -103,6 +104,27 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
 
                     return true;
                 }
+            });
+        };
+
+        $scope.deleteConfirm = function() {
+            var deleteConfirmModal = $modal.open({
+                templateUrl: 'tpl/deleteConfirmModal.html',
+                controller: 'DeleteConfirmCtrl',
+                resolve: {
+                    tek_label: function() {
+                        return $scope.plan.tek_label;
+                    }
+                }
+            });
+
+            deleteConfirmModal.result.then(function (confirmation) {
+                var delPlan = Plans.deletePlan({planId: $scope.plan.id}, function(delResponse) {
+                    Message.prep('newMessage', "Plan deleted");
+                    $location.path("/plans");
+                });
+            }, function () {
+                console.log("delete canceled");
             });
         };
 
@@ -206,6 +228,16 @@ lpmtControllers.controller('VerbNewCtrl', ['$scope', 'Verbs', 'Message',
         };
     }
 ]);
+
+lpmtControllers.controller('DeleteConfirmCtrl', function($scope, $modalInstance, tek_label) {
+    $scope.tek_label = tek_label;
+    $scope.deletePlan = function() {
+        $modalInstance.close('delete');
+    };
+    $scope.cancelDelete = function() {
+        $modalInstance.dismiss('cancel');
+    };
+});
 
 lpmtControllers.controller('MessageCtrl', ['$scope', '$timeout', 'Message',
     function($scope, $timeout, Message) {

@@ -219,7 +219,7 @@ post '/plans' => sub {
     $hash->{verb_plan_maps} = $self->map_verbs($hash->{verb_plan_maps});
     $hash->{resources} = $self->map_resources($hash->{resources});
 
-    print STDERR Dumper $hash;
+    # print STDERR Dumper $hash;
 
     # return $self->render(json => {result => 999, message => 'OK'});
 
@@ -229,6 +229,14 @@ post '/plans' => sub {
         $self->render(json => {   result => '0', message => 'Create plan failed.'});
 };
 
+del '/plans/:id' => sub {
+    my $self = shift;
+    my $rs = $self->db->resultset('Plan');
+    # my $delete = $rs->search({ id => $self->stash('id')})->delete();
+    my $delete = $rs->find($self->stash('id'))->delete();
+
+    $self->render(json => { message => 'OK'});
+};
 
 # teks
 get '/teks' => sub {
