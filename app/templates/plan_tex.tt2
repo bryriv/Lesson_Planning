@@ -1,0 +1,125 @@
+[% USE Latex format='pdf(pdflatex)';
+    out = FILTER latex('out.pdf')
+-%]
+%header
+\documentclass[12pt]{exam}
+\paperheight 11in
+\paperwidth 8.5in
+\usepackage[utf8]{inputenc}
+\usepackage[margin=.75in]{geometry}
+\usepackage{palatino}
+\usepackage{ulem}
+\usepackage{hyperref}
+\urlstyle{same}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\title{lesson_plan}
+\author{Jeniver Rivera}
+
+\pagestyle{headandfoot}
+\firstpageheader{}{}{JRivera Lesson Plan}
+\footer{6th - Math}{\thepage}{NMS 2014-2015}
+
+% \titlespacing{\section}{12pc}{1.5ex plus .1ex minus .2ex}{1pc}
+
+\begin{document}
+
+\noindent
+
+\begin{flushleft}
+\textbf{{\Large{YES: [% tek_label %]}}}
+\end{flushleft}
+\begin{flushleft}
+\textbf{{\large{[% plan_d %]}}}
+\end{flushleft}
+\begin{flushleft}
+\textbf{{\large{Grade: [% grade %]}}}
+\end{flushleft}
+\rule[2ex]{\textwidth}{2pt}
+
+\begin{flushleft}
+\textbf{{\large{Knowledge \& Skills}}}
+\end{flushleft}
+
+\begin{flushleft}
+\textbf{[% topic %]}: [% ks %]
+\end{flushleft}
+\vspace*{.1in}
+
+\begin{flushleft}
+\textbf{{\large{Student Expectations}}}
+\end{flushleft}
+
+\begin{flushleft}
+[% se %]
+\end{flushleft}
+\vspace*{.1in}
+
+\begin{flushleft}
+\textbf{{\large{Processing Standard}}}
+\end{flushleft}
+
+\begin{flushleft}
+[% ps_alpha %] - [% ps %]
+\end{flushleft}
+\vspace*{.1in}
+
+\begin{flushleft}
+\textbf{{\large{Verbs}}}
+\end{flushleft}
+
+\begin{flushleft}
+[% verb_string %]
+\end{flushleft}
+\vspace*{.1in}
+
+[% FOREACH data IN first_page %]
+\begin{flushleft}
+\textbf{{\large{[% data.type_label %]}}}
+\end{flushleft}
+
+\begin{flushleft}
+[% data.content %]
+\end{flushleft}
+\vspace*{.1in}
+[% END %]
+
+\pagebreak
+
+[% FOREACH section IN sections %]
+\begin{flushleft}
+\textbf{{\large{[% section.type_label %]}}}
+\end{flushleft}
+\nopagebreak
+\begin{flushleft}
+[% section.content %]
+\end{flushleft}
+\vspace*{.1in}
+[% END %]
+
+[% FOREACH resource IN resources %]
+\begin{flushleft}
+\textbf{{\large{[% resource.type_label %]}}}
+\end{flushleft}
+\nopagebreak
+\begin{flushleft}
+\begin{itemize}
+  \item Complete: [% resource.complete %]
+  [% IF resource.url %]
+  \item \url{[% resource.url %]}
+  [% END %]
+  \item [% resource.notes %]
+\end{itemize}
+\end{flushleft}
+\vspace*{.1in}
+[% END %]
+
+
+\end{document}
+[% END -%]
+

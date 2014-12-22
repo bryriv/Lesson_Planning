@@ -1,0 +1,20 @@
+{
+    "secret" : "my secret",
+    "template" : {
+        "output" : "/path/to/output",
+        "include" : "/path/to/input",
+        "default_section_content" : "No data available",
+        "default_notes_content" : "No notes",
+        "chars_to_escape" : "\\#\\$\\%\\@",
+        "char_map" : {
+            "\\<" : "\\textless",
+            "\\>" : "\\textgreater",
+            "\\n" : " \\newline "
+        }
+    },
+    "db" : {
+        "dsn" : "dbi:mysql:database=lesson_planning;host=localhost",
+        "dbuser" : "dbuser",
+        "dbpwd" : "dbpwd"  
+    }   
+}

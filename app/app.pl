@@ -5,6 +5,7 @@ use lib 'lib';
 use Schema;
 
 my $conf = plugin JSONConfig => { file => './app.conf' };
+plugin 'tt_renderer';
 
 use Data::Dumper;
 
@@ -24,15 +25,35 @@ get '/plans' => sub {
 
 get '/plans/:id' => sub {
     my $self = shift;
+
     my $query_type = $self->param('query_type') || 'simple';
+    my $export = 0 || $self->param('export');
+
     my $plan_rs = $self->db->resultset('Plan');
 
-    my $plan = $query_type eq 'complete' ? $plan_rs->plan_complete($self->stash('id')) : 
-                $plan_rs->plan_simple($self->stash('id'));
+    if ($export) {
+        my $related_rs = {
+            verb_plan_map   => $self->db->resultset('VerbPlanMap'),
+            section         => $self->db->resultset('Section'),
+            resource        => $self->db->resultset('Resource')
+        };
 
-    $self->respond_to(
-        any  => {json => $plan},
-    );
+        my $export_data = $plan_rs->export({
+            id => $self->stash('id'), 
+            template => $conf->{template},
+            related_rs => $related_rs
+        });
+
+        $self->respond_to(any => {json => $export_data});
+    }
+    else {
+        my $plan = $query_type eq 'complete' ? $plan_rs->plan_complete($self->stash('id')) : 
+                    $plan_rs->plan_simple($self->stash('id'));
+
+        $self->respond_to(
+            any  => {json => $plan},
+        );
+    }
 };
 
 put '/plans/:id/' => sub {
@@ -77,8 +98,7 @@ get '/plans/:id/verbs' => sub {
     )->all;
     $self->respond_to(
         any  => {json => [
-            map { {$_->get_columns} } @data   # gets verb_plan_map, plus verb.verb
-            # map { {$_->verb->get_columns} } @data # gets a smaller hash with just the 'verb' data, needs prefetch
+            map { {$_->get_columns} } @data 
         ]},
     );
 };
@@ -346,7 +366,7 @@ get '/resource_types' => sub {
 
 # helpers
 helper db => sub {
-  return Schema->connect($conf->{dsn}, $conf->{dbuser}, $conf->{dbpwd});
+  return Schema->connect($conf->{db}{dsn}, $conf->{db}{dbuser}, $conf->{db}{dbpwd});
 };
 
 helper map_sections => sub {
@@ -396,5 +416,8 @@ helper map_verbs => sub {
     return \@verbs;
 };
 
+app->secrets([$conf->{secret}]);
 app->start;
+
+
 

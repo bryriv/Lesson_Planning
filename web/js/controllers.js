@@ -11,9 +11,9 @@ lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
     }
 ]);
 
-lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', '$modal', '$location', 'Message', 
+lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', '$modal', '$location', '$window', 'Message', 
                                                 'Plans', 'PlanVerbs', 'PlanResources', 'PlanSections', 'Verbs', 'PS', 'Teks',
-    function($scope, $timeout, $routeParams, $modal, $location, Message, Plans, PlanVerbs, 
+    function($scope, $timeout, $routeParams, $modal, $location, $window, Message, Plans, PlanVerbs, 
                     PlanResources, PlanSections, Verbs, PS, Teks) {
         $scope.plan = Plans.get({planId: $routeParams.planId, query_type: 'complete'}, function(plan) {
             // $scope.plan.plan_d = "2014-12-25";
@@ -97,11 +97,6 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
             var update = Plans.update({planId: $scope.plan.id}, data, function(saveResponse) {
                 if (saveResponse.message === 'OK') {
                     $scope.plan = saveResponse.plan;
-                    // $scope.plan.ps = saveResponse.plan.ps;
-                    // $scope.plan.ps_alpha = saveResponse.plan.ps_alpha;
-                    // $scope.plan.ps_id = saveResponse.plan.ps_id;
-                    // $scope.plan.tek_label = saveResponse.plan.tek_label;
-
                     return true;
                 }
             });
@@ -125,6 +120,14 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
                 });
             }, function () {
                 console.log("delete canceled");
+            });
+        };
+
+        $scope.exportPlan = function() {
+            console.log('in export');
+            var pdf = Plans.get({planId: $scope.plan.id, export: '1'}, function(exportResponse) {
+                var win = $window.open(exportResponse.pdf_link);
+                // $window.location.href = exportResponse.pdf_link;
             });
         };
 
@@ -237,6 +240,15 @@ lpmtControllers.controller('DeleteConfirmCtrl', function($scope, $modalInstance,
         $modalInstance.dismiss('cancel');
     };
 });
+
+lpmtControllers.controller('ExportPlanCtrl', ['$scope', 'Plans',
+    function($scope, Plans) {
+        console.log('in export');
+        var pdf = Plans.get({planId: $scope.plan.id, export: '1'}, function(exportResponse) {
+            var win = $window.open(exportResponse.pdf_link);
+        });
+    }
+]);
 
 lpmtControllers.controller('MessageCtrl', ['$scope', '$timeout', 'Message',
     function($scope, $timeout, Message) {

@@ -11,6 +11,7 @@ commit_message.log
 xeditable.*
 *.log
 *.pid
+web/download/*
 
 # Compiled source #
 ###################

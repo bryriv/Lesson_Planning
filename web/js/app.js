@@ -25,6 +25,9 @@ lpmtApp.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'tpl/plan-new.html',
                 controller: 'PlanNewCtrl'
             }).
+            when('/export/:planId', {
+                controller: 'ExportPlanCtrl'
+            }).
             otherwise({
                 redirectTo: '/plans'
             });
