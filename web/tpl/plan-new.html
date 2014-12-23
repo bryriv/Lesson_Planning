@@ -13,6 +13,14 @@
         </div>
         <div class="row">
             <div class="form-group col-md-12">
+                <label for="grade">Grade</label>
+                    <select ng-required="true" class="form-control" ng-model="plan.grade" ng-options="grade as grade.grade for grade in grades">
+                        <option value="">-- Grade - Required --</option>
+                    </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
                 <label for="tek">TEK</label>
                     <select ng-required="true" class="form-control" ng-model="plan.tek" ng-options="tek as tek.label group by tek.grade for tek in teks">
                         <option value="">-- TEK - Required --</option>

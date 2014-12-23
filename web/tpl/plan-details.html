@@ -30,7 +30,14 @@
             edit
         </button> -->
     </h4>
-    <h4>Grade: {{plan.grade}}</h4>
+    <h4 style="display:inline">
+        <span onbeforesave="updatePlan({grade_id: $data})" e-form="grade" editable-select="plan.grade_id" onshow="loadGrades()" e-ng-options="grade.id as grade.grade for grade in grades" e-required>
+        Grade {{plan.grade}}
+        </span>
+    </h4>
+        <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="grade.$show()" ng-hide="grade.$visible">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+        </button>
 </div>
 <hr>
 <div>

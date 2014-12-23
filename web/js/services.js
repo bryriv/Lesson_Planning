@@ -86,6 +86,13 @@ lpmtServices.factory('PlanResourceTypes', ['$resource',
     }
 ]);
 
+lpmtServices.factory('Grades', ['$resource',
+    function($resource) {
+        return $resource('http://192.168.1.167/api/grades', {}, {
+            query: { method: 'GET', isArray: true},
+        });
+    }
+]);
 
 lpmtServices.factory("Message", function($rootScope) {
     var appMessage = {};

@@ -12,9 +12,9 @@ lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
 ]);
 
 lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', '$modal', '$location', '$window', 'Message', 
-                                                'Plans', 'PlanVerbs', 'PlanResources', 'PlanSections', 'Verbs', 'PS', 'Teks',
+                                                'Plans', 'PlanVerbs', 'PlanResources', 'PlanSections', 'Verbs', 'PS', 'Teks', 'Grades',
     function($scope, $timeout, $routeParams, $modal, $location, $window, Message, Plans, PlanVerbs, 
-                    PlanResources, PlanSections, Verbs, PS, Teks) {
+                    PlanResources, PlanSections, Verbs, PS, Teks, Grades) {
         $scope.plan = Plans.get({planId: $routeParams.planId, query_type: 'complete'}, function(plan) {
             // $scope.plan.plan_d = "2014-12-25";
             $scope.verbs = PlanVerbs.query({planId: $routeParams.planId}, function(verbs) {
@@ -93,6 +93,12 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
                 $scope.teks = data;
             });
         };
+        $scope.grades = [];
+        $scope.loadGrades = function() {
+            return $scope.grades.length ? null : Grades.query({}, function(data) {
+                $scope.grades = data;
+            });
+        };
         $scope.updatePlan = function(data) {
             var update = Plans.update({planId: $scope.plan.id}, data, function(saveResponse) {
                 if (saveResponse.message === 'OK') {
@@ -151,12 +157,14 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
     }
 ]);
 
-lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$rootScope', 'Message', 'Plans', 'Teks', 'PS', 'Verbs',
-    function($scope, $location, $filter, $rootScope, Message, Plans, Teks, PS, Verbs) {
+lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$rootScope', 'Message', 
+                        'Plans', 'Teks', 'PS', 'Verbs', 'Grades',
+    function($scope, $location, $filter, $rootScope, Message, Plans, Teks, PS, Verbs, Grades) {
         $scope.message = Message;
         $scope.teks = Teks.query();
         $scope.ps = PS.query();
         $scope.verbs = Verbs.query();
+        $scope.grades = Grades.query();
         $scope.update = function() {
         };
 
@@ -174,7 +182,7 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$r
             // plan data
             payload.plan_d = $filter('date')($scope.plan.plan_date, 'yyyy-MM-dd');
             payload.tek_summary_id = $scope.plan.tek.id;
-            payload.grade = $scope.plan.tek.grade;
+            payload.grade_id = $scope.plan.grade.id;
             payload.proc_standard_id = $scope.plan.ps.id;
             payload.create_d = $filter('date')(new Date(), 'yyyy-MM-dd');
 

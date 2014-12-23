@@ -12,6 +12,7 @@ drop view if exists tek_summary_7;
 drop table if exists tek_summary;
 drop table if exists tek;
 drop table if exists tek_parent;
+drop table if exists grade;
 
 -- tek parent
 create table tek_parent (
@@ -326,17 +327,26 @@ create table proc_standard (
     primary key (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+-- grade
+create table grade (
+    id int(10) unsigned not null auto_increment,
+    grade varchar(30) not null,
+    primary key (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 -- plan
 create table plan (
     id int(10) unsigned not null auto_increment,
     plan_d date not null,
-    grade tinyint not null,
+    grade_id int(10) unsigned not null,
     tek_summary_id int(10) unsigned not null,
     proc_standard_id int(10) unsigned not null,
     create_d date not null,
     primary key (id),
+    key FK_plan_grade (grade_id),
     key FK_plan_tek_summary (tek_summary_id),
     key FK_plan_proc_standard (proc_standard_id),
+    constraint FK_plan_grade foreign key (grade_id) references grade (id),
     constraint FK_plan_tek_summary foreign key (tek_summary_id) references tek_summary (id),
     constraint FK_plan_proc_standard foreign key (proc_standard_id) references proc_standard (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
@@ -450,6 +460,7 @@ insert into verb (verb) values ('Convert');
 insert into verb (verb) values ('Intrepret');
 insert into verb (verb) values ('Summarize');
 insert into verb (verb) values ('Describe');
+insert into verb (verb) values ('Develop');
 
 -- ps data
 insert into proc_standard (grade, alpha, content) values (6, 'A', 'apply mathematics to problems arising in everyday life, society, and the workplace');
@@ -460,4 +471,7 @@ insert into proc_standard (grade, alpha, content) values (6, 'E', 'create and us
 insert into proc_standard (grade, alpha, content) values (6, 'F', 'analyze mathematical relationships to connect and communicate mathematical ideas');
 insert into proc_standard (grade, alpha, content) values (6, 'G', 'display, explain, and justify mathematical ideas and arguments using precise mathematical language in written or oral communication');
 
+-- grade
+insert into grade (grade) values ('6th Academic');
+insert into grade (grade) values ('6th Pre AP');
 

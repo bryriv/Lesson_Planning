@@ -21,9 +21,9 @@ sub plan_simple {
         my $plan = $self->find(
             {   'me.id' => $id  },
             {
-                join => ['tek_summary'],
-                '+select' => ['tek_summary.label'],
-                '+as' => ['tek_label']
+                join => ['tek_summary', 'grade'],
+                '+select' => ['tek_summary.label', 'grade.grade'],
+                '+as' => ['tek_label', 'grade']
             }
         );
         return {$plan->get_columns};
@@ -32,9 +32,9 @@ sub plan_simple {
         my @plans = $self->search(
             {},
             {
-                join => ['tek_summary'],
-                '+select' => ['tek_summary.label'],
-                '+as' => ['tek_label']
+                join => ['tek_summary', 'grade'],
+                '+select' => ['tek_summary.label', 'grade.grade'],
+                '+as' => ['tek_label', 'grade']
             }
         );
         return [ map { {$_->get_columns} } @plans ];
@@ -47,9 +47,9 @@ sub plan_complete {
         my $plan = $self->find(
             {   'me.id' => $id   },
             {
-                join => ['proc_standard', 'tek_summary'],
-                '+select' => ['proc_standard.id', 'proc_standard.alpha', 'proc_standard.content', 'tek_summary.topic', 'tek_summary.ks', 'tek_summary.se', 'tek_summary.label'],
-                '+as' => ['ps_id', 'ps_alpha', 'ps', 'topic', 'ks', 'se', 'tek_label']
+                join => ['proc_standard', 'tek_summary', 'grade'],
+                '+select' => ['proc_standard.id', 'proc_standard.alpha', 'proc_standard.content', 'tek_summary.topic', 'tek_summary.ks', 'tek_summary.se', 'tek_summary.label', 'grade.grade'],
+                '+as' => ['ps_id', 'ps_alpha', 'ps', 'topic', 'ks', 'se', 'tek_label', 'grade']
             }
         );
         return {$plan->get_columns};
@@ -58,9 +58,9 @@ sub plan_complete {
         my @plans = $self->search(
             {},
             {
-                join => ['proc_standard', 'tek_summary'],
-                '+select' => ['proc_standard.id', 'proc_standard.alpha', 'proc_standard.content', 'tek_summary.topic', 'tek_summary.ks', 'tek_summary.se', 'tek_summary.label'],
-                '+as' => ['ps_id', 'ps_alpha', 'ps', 'topic', 'ks', 'se', 'tek_label']
+                join => ['proc_standard', 'tek_summary', 'grade'],
+                '+select' => ['proc_standard.id', 'proc_standard.alpha', 'proc_standard.content', 'tek_summary.topic', 'tek_summary.ks', 'tek_summary.se', 'tek_summary.label', 'grade.grade'],
+                '+as' => ['ps_id', 'ps_alpha', 'ps', 'topic', 'ks', 'se', 'tek_label', 'grade']
             }
         );
         return [ map { {$_->get_columns} } @plans ];

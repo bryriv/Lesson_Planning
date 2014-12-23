@@ -36,9 +36,11 @@ __PACKAGE__->table("plan");
   datetime_undef_if_invalid: 1
   is_nullable: 0
 
-=head2 grade
+=head2 grade_id
 
-  data_type: 'tinyint'
+  data_type: 'integer'
+  extra: {unsigned => 1}
+  is_foreign_key: 1
   is_nullable: 0
 
 =head2 tek_summary_id
@@ -73,8 +75,13 @@ __PACKAGE__->add_columns(
   },
   "plan_d",
   { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 0 },
-  "grade",
-  { data_type => "tinyint", is_nullable => 0 },
+  "grade_id",
+  {
+    data_type => "integer",
+    extra => { unsigned => 1 },
+    is_foreign_key => 1,
+    is_nullable => 0,
+  },
   "tek_summary_id",
   {
     data_type => "integer",
@@ -106,6 +113,21 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
+
+=head2 grade
+
+Type: belongs_to
+
+Related object: L<Schema::Result::Grade>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "grade",
+  "Schema::Result::Grade",
+  { id => "grade_id" },
+  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+);
 
 =head2 proc_standard
 
@@ -183,8 +205,9 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-17 01:48:19
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pt5e2opNkfbrIftK/xNZJg
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-22 18:54:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:BhgjnhKMyEqSNljcDON96A
+
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

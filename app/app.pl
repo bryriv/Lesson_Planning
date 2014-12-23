@@ -363,6 +363,15 @@ get '/resource_types' => sub {
     );
 };
 
+get '/grades' => sub {
+    my $self = shift;
+    my @grades = $self->db->resultset('Grade')->all();
+    $self->respond_to(
+        any  => {json => [
+            map { {$_->get_columns} } @grades
+        ]},
+    );
+};
 
 # helpers
 helper db => sub {

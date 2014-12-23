@@ -40,7 +40,7 @@ __PACKAGE__->table("section");
 =head2 content
 
   data_type: 'text'
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 enum_section_type_id
 
@@ -67,7 +67,7 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
   },
   "content",
-  { data_type => "text", is_nullable => 0 },
+  { data_type => "text", is_nullable => 1 },
   "enum_section_type_id",
   {
     data_type => "integer",
@@ -122,8 +122,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-17 01:48:19
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4z5xDXoy9pzHpAY+U3vczA
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2014-12-22 18:54:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vjeCbOLgoHGLwDRUHu6C9w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

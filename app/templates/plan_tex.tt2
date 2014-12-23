@@ -32,7 +32,7 @@
 \noindent
 
 \begin{flushleft}
-\textbf{{\Large{YES: [% tek_label %]}}}
+\textbf{{\Large{[% tek_label %]}}}
 \end{flushleft}
 \begin{flushleft}
 \textbf{{\large{[% plan_d %]}}}
