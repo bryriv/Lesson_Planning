@@ -431,12 +431,13 @@ insert into enum_section_type (type, label, sequence) values ('boot_camp', 'Boot
 -- enum_resource_type data
 insert into enum_resource_type (type, label, sequence) values ('model', 'Model', 1);
 insert into enum_resource_type (type, label, sequence) values ('guided_practice', 'Guided Practice', 2);
-insert into enum_resource_type (type, label, sequence) values ('indy_practice', 'Independent Practice', 3);
-insert into enum_resource_type (type, label, sequence) values ('exit_ticket', 'Exit Ticket', 4);
-insert into enum_resource_type (type, label, sequence) values ('flipchart', 'Flipchart', 5);
-insert into enum_resource_type (type, label, sequence) values ('guided_notes', 'Guided Notes', 6);
-insert into enum_resource_type (type, label, sequence) values ('homework', 'Homework', 7);
-insert into enum_resource_type (type, label, sequence) values ('homework_key', 'Homework Key', 8);
+insert into enum_resource_type (type, label, sequence) values ('check_understand', 'Check For Understanding', 3);
+insert into enum_resource_type (type, label, sequence) values ('indy_practice', 'Independent Practice', 4);
+insert into enum_resource_type (type, label, sequence) values ('exit_ticket', 'Exit Ticket', 5);
+insert into enum_resource_type (type, label, sequence) values ('flipchart', 'Flipchart', 6);
+insert into enum_resource_type (type, label, sequence) values ('guided_notes', 'Guided Notes', 7);
+insert into enum_resource_type (type, label, sequence) values ('homework', 'Homework', 8);
+insert into enum_resource_type (type, label, sequence) values ('homework_key', 'Homework Key', 9);
 
 -- verb data
 insert into verb (verb) values ('Classify');
