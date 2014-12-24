@@ -1,7 +1,13 @@
         <div class="row">
-            <div style="margin-top: 25px" class="col-md-9"><h3 style="display:inline">Lesson Plans - Pre AP</h3></div>
+        <h3>Lesson Plans</h4>
+        </div>
+
+
+        <div class="row">
+            <div style="margin-top: 25px" class="col-md-9"><h4 style="display:inline">Pre AP</h4>
+            </div>
             <div class="col-md-3 filter-push-down">
-                <input placeholder="filter TEK" name='plan_filter' class="form-control" ng-model="query_preap.tek_label">
+                <input placeholder="filter TEK" name='plan_filter' class="form-control" ng-model="queryP.tek_label">
             </div>
         </div>
 <!--         <div class="row" ng-if="filter">
@@ -17,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="plan in plans_preap | filter:query_preap">
+            <tr dir-paginate="plan in plans_preap | filter:queryP | itemsPerPage: 10" pagination-id="preap">
                 <td><a href="#/plans/{{plan.id}}">{{plan.tek_label}}</a></td>
                 <td>{{plan.grade}}</td>
                 <td>{{plan.plan_d | date: 'MMM-dd yyyy'}}</td>
@@ -25,6 +31,9 @@
             </tr>
             </tbody>
         </table>
+        <div class='text-center'>
+            <dir-pagination-controls pagination-id="preap" template-url="/vendor/dirPagination.tpl.html"></dir-pagination-controls>
+        </div>
         <div ng-if="!plans_preap.length">
             No plans available
         </div>
@@ -33,9 +42,9 @@
 
 
         <div class="row">
-            <div style="margin-top: 25px" class="col-md-9"><h3 style="display:inline">Lesson Plans - Academic</h3></div>
+            <div style="margin-top: 25px" class="col-md-9"><h4 style="display:inline">Academic</h4></div>
             <div class="col-md-3 filter-push-down">
-                <input placeholder="filter TEK" name='plan_filter' class="form-control" ng-model="query.tek_label">
+                <input placeholder="filter TEK" name='plan_filter' class="form-control" ng-model="queryA.tek_label">
             </div>
         </div>
 
@@ -52,7 +61,7 @@
                 </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="plan in plans_academic | filter:query">
+            <tr dir-paginate="plan in plans_academic | filter:queryA | itemsPerPage: 10" pagination-id="academic">
                 <td><a href="#/plans/{{plan.id}}">{{plan.tek_label}}</a></td>
                 <td>{{plan.grade}}</td>
                 <td>{{plan.plan_d | date: 'MMM-dd yyyy'}}</td>
@@ -60,6 +69,9 @@
             </tr>
             </tbody>
         </table>
+        <div class='text-center'>
+            <dir-pagination-controls pagination-id="academic" template-url="/vendor/dirPagination.tpl.html"></dir-pagination-controls>
+        </div>
         <div ng-if="!plans_academic.length">
             No plans available
         </div>

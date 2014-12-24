@@ -43,10 +43,11 @@ sub plan_simple {
             {
                 join => ['tek_summary', 'grade'],
                 '+select' => ['tek_summary.label', 'grade.grade'],
-                '+as' => ['tek_label', 'grade']
+                '+as' => ['tek_label', 'grade'],
+                order_by => {-desc => 'me.plan_d'}
             }
         );
-        return [ map { {$_->get_columns} } @plans ];
+        return { total_plans => scalar @plans, plans => [ map { {$_->get_columns} } @plans ]};
     }
 }
 

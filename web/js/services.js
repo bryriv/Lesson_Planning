@@ -12,7 +12,7 @@ var lpmtServices = angular.module('lpmtServices', ['ngResource']);
 lpmtServices.factory('Plans', ['$resource',
     function($resource) {
         return $resource('http://192.168.1.167/api/plans/:planId', {}, {
-            query: { method: 'GET', isArray: true},
+            query: { method: 'GET', isArray: false},
             create: { method: 'POST'},
             update: { method: 'PUT'},
             deletePlan: { method: 'DELETE'}

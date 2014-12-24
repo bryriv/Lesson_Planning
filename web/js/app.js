@@ -4,6 +4,7 @@ var lpmtApp = angular.module('lmptApp', [
     'ngRoute',
     'xeditable',
     'ui.bootstrap',
+    'angularUtils.directives.dirPagination',
     'lpmtControllers',
     'lpmtFilters',
     'lpmtServices'

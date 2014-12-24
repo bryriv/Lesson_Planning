@@ -4,11 +4,16 @@ var lpmtControllers = angular.module('lpmtControllers', ['ui.bootstrap']);
 
 lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
     function($scope, $filter, Plans) {
-        $scope.plans_academic = Plans.query({grade_id: 1});
-        $scope.plans_preap = Plans.query({grade_id: 2});
+        var academic_data = Plans.query({grade_id: 1}, function(data) {
+            $scope.plans_academic = data.plans;
+            $scope.plans_academic_total = data.total_plans ? data.total_plans : 0;
+        });
+        var preap_data = Plans.query({grade_id: 2}, function(data) {
+            $scope.plans_preap = data.plans;
+            $scope.plans_preap_total = data.total_plans ? data.total_plans : 0;
+        });
         // $scope.plans.create_dt = new Date($scope.plans.create_dt).toISOString();
         // console.log($scope.plans);
-        console.log('in plan controller');
     }
 ]);
 
