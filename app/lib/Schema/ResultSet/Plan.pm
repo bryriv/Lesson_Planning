@@ -5,7 +5,6 @@ use warnings;
 
 use base 'DBIx::Class::ResultSet';
 use Template::Latex;
-use TeX::Encode;
 use File::Copy;
 
 use Data::Dumper;
@@ -15,8 +14,16 @@ sub test {
     print STDERR "Plan ResultSet Test Method\n";
 }
 
+my %valid_params = (
+    grade_id    => '',
+    tek_summary_id => '',
+    proc_standard_id => '',
+    plan_d => '',
+    create_d => '',
+);
+
 sub plan_simple {
-    my ($self, $id) = @_;
+    my ($self, $id, $params) = @_;
     if ($id) {
         my $plan = $self->find(
             {   'me.id' => $id  },
@@ -29,8 +36,10 @@ sub plan_simple {
         return {$plan->get_columns};
     }
     else {
+        my $where = {};
+        $where = $self->validate_params($params);
         my @plans = $self->search(
-            {},
+            $where,
             {
                 join => ['tek_summary', 'grade'],
                 '+select' => ['tek_summary.label', 'grade.grade'],
@@ -42,7 +51,7 @@ sub plan_simple {
 }
 
 sub plan_complete {
-    my ($self, $id) = @_;
+    my ($self, $id, $params) = @_;
     if ($id) {
         my $plan = $self->find(
             {   'me.id' => $id   },
@@ -55,8 +64,10 @@ sub plan_complete {
         return {$plan->get_columns};
     }
     else {
+        my $where = {};
+        $where = $self->validate_params($params);
         my @plans = $self->search(
-            {},
+            $where,
             {
                 join => ['proc_standard', 'tek_summary', 'grade'],
                 '+select' => ['proc_standard.id', 'proc_standard.alpha', 'proc_standard.content', 'tek_summary.topic', 'tek_summary.ks', 'tek_summary.se', 'tek_summary.label', 'grade.grade'],
@@ -129,8 +140,6 @@ sub latex_chars {
         $data =~ s/$regex/$self->{map_regex}{$regex}/g;
     }
 
-    $data =~ s/\n/ \\newline\\newline /g;
-
     return $data;
 }
 
@@ -146,9 +155,15 @@ sub generate_pdf_filename {
     return join('.', @parts);
 }
 
-
-
-
-
+sub validate_params {
+    my ($self, $params) = @_;
+    my $valid_params = {};
+    for my $param (keys %$params) {
+        # simple param check - make sure it just exists in valid_params
+        next if ! exists $valid_params{$param};
+        $valid_params->{$param} = $params->{$param};
+    }
+    return $valid_params;
+}
 
 1;

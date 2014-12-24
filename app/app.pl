@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use Mojolicious::Lite;
 use Mojo::JSON qw(decode_json encode_json);
+use Mojo::Message::Request;
 use lib 'lib';
 use Schema;
 
@@ -12,11 +13,13 @@ use Data::Dumper;
 # plans
 get '/plans' => sub {
     my $self = shift;
-    my $query_type = $self->param('query_type') || 'simple';
+    my $query_params = $self->req->query_params->to_hash;
+    my $query_type = delete $query_params->{query_type} || 'simple';
+
     my $plan_rs = $self->db->resultset('Plan');
 
-    my $plans = $query_type eq 'complete' ? $plan_rs->plan_complete() : 
-                $plan_rs->plan_simple();
+    my $plans = $query_type eq 'complete' ? $plan_rs->plan_complete(undef, $query_params) : 
+                $plan_rs->plan_simple(undef, $query_params);
 
     $self->respond_to(
         any  => {json => $plans},

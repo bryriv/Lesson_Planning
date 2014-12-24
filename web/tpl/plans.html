@@ -1,7 +1,7 @@
         <div class="row">
-            <div style="margin-top: 25px" class="col-md-9"><h3 style="display:inline">Lesson Plans</h3></div>
+            <div style="margin-top: 25px" class="col-md-9"><h3 style="display:inline">Lesson Plans - Pre AP</h3></div>
             <div class="col-md-3 filter-push-down">
-                <input placeholder="filter TEK" name='plan_filter' class="form-control" ng-model="query.tek_label">
+                <input placeholder="filter TEK" name='plan_filter' class="form-control" ng-model="query_preap.tek_label">
             </div>
         </div>
 <!--         <div class="row" ng-if="filter">
@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="plan in plans | filter:query">
+            <tr ng-repeat="plan in plans_preap | filter:query_preap">
                 <td><a href="#/plans/{{plan.id}}">{{plan.tek_label}}</a></td>
                 <td>{{plan.grade}}</td>
                 <td>{{plan.plan_d | date: 'MMM-dd yyyy'}}</td>
@@ -25,6 +25,41 @@
             </tr>
             </tbody>
         </table>
-        <div ng-if="!plans.length">
+        <div ng-if="!plans_preap.length">
+            No plans available
+        </div>
+
+        <hr>
+
+
+        <div class="row">
+            <div style="margin-top: 25px" class="col-md-9"><h3 style="display:inline">Lesson Plans - Academic</h3></div>
+            <div class="col-md-3 filter-push-down">
+                <input placeholder="filter TEK" name='plan_filter' class="form-control" ng-model="query.tek_label">
+            </div>
+        </div>
+
+<!--         <div class="row" ng-if="filter">
+            Filter: {{filter}}
+        <div> -->
+        <table class="table table-condensed table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>TEK</th>
+                    <th>Grade</th>
+                    <th>Plan Date</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="plan in plans_academic | filter:query">
+                <td><a href="#/plans/{{plan.id}}">{{plan.tek_label}}</a></td>
+                <td>{{plan.grade}}</td>
+                <td>{{plan.plan_d | date: 'MMM-dd yyyy'}}</td>
+                <td>{{plan.create_d | date: 'MMM-dd yyyy'}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div ng-if="!plans_academic.length">
             No plans available
         </div>

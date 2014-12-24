@@ -4,7 +4,8 @@ var lpmtControllers = angular.module('lpmtControllers', ['ui.bootstrap']);
 
 lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
     function($scope, $filter, Plans) {
-        $scope.plans = Plans.query();
+        $scope.plans_academic = Plans.query({grade_id: 1});
+        $scope.plans_preap = Plans.query({grade_id: 2});
         // $scope.plans.create_dt = new Date($scope.plans.create_dt).toISOString();
         // console.log($scope.plans);
         console.log('in plan controller');
