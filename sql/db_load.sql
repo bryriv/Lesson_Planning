@@ -458,7 +458,7 @@ insert into verb (verb) values ('Write');
 insert into verb (verb) values ('Solve');
 insert into verb (verb) values ('Graph');
 insert into verb (verb) values ('Convert');
-insert into verb (verb) values ('Intrepret');
+insert into verb (verb) values ('Interpret');
 insert into verb (verb) values ('Summarize');
 insert into verb (verb) values ('Describe');
 insert into verb (verb) values ('Develop');
