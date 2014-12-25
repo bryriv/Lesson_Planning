@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use Mojolicious::Lite;
 use Mojo::JSON qw(decode_json encode_json);
-use Mojo::Message::Request;
+# use Mojo::Message::Request;
 use lib 'lib';
 use Schema;
 
