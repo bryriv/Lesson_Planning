@@ -23,6 +23,9 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
                     PlanResources, PlanSections, Verbs, PS, Teks, Grades) {
         $scope.plan = Plans.get({planId: $routeParams.planId, query_type: 'complete'}, function(plan) {
             // $scope.plan.plan_d = "2014-12-25";
+            if (plan.id === undefined) {
+                return;
+            }
             $scope.verbs = PlanVerbs.query({planId: $routeParams.planId}, function(verbs) {
                 $scope.selectedVerbs = $scope.showVerbs(verbs);
                 $scope.startingVerbs = [1, 2, 3];

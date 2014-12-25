@@ -378,7 +378,9 @@ get '/grades' => sub {
 
 # helpers
 helper db => sub {
-  return Schema->connect($conf->{db}{dsn}, $conf->{db}{dbuser}, $conf->{db}{dbpwd});
+  my $schema = Schema->connect($conf->{db}{dsn}, $conf->{db}{dbuser}, $conf->{db}{dbpwd});
+  $schema->storage->debug(1);
+  return $schema;
 };
 
 helper map_sections => sub {
@@ -429,6 +431,7 @@ helper map_verbs => sub {
 };
 
 app->secrets([$conf->{secret}]);
+app->log->info('starting app');
 app->start;
 
 

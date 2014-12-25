@@ -62,7 +62,7 @@ sub plan_complete {
                 '+as' => ['ps_id', 'ps_alpha', 'ps', 'topic', 'ks', 'se', 'tek_label', 'grade']
             }
         );
-        return {$plan->get_columns};
+        return $plan ? {$plan->get_columns} : {};
     }
     else {
         my $where = {};

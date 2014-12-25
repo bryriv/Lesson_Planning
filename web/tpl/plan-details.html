@@ -1,150 +1,157 @@
-<div style="margin-top:30px">
-    <h3 style="display:inline">
-        <span onbeforesave="updatePlan({tek_summary_id: $data})" e-form="tek" editable-select="plan.tek_summary_id" onshow="loadTeks()" e-ng-options="tek.id as tek.label group by tek.grade for tek in teks" e-required>
-        TEK {{plan.tek_label}}
-        </span>
-    </h3>
-        <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="tek.$show()" ng-hide="tek.$visible">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-        </button>
-
-        <button style="float: right" type="button" class="btn btn-default" tooltip-placement="right" tooltip="Delete this plan" ng-click="deleteConfirm()">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
-        </button>
-        <!-- <a href="#" tooltip-placement="left" tooltip="Export as PDF" style="float:right" class="btn btn-default" role="button"><span class="glyphicon glyphicon-export" aria-hidden="true" ></span></a> -->
-        <button style="float: right" type="button" class="btn btn-default" tooltip-placement="left" tooltip="Export as PDF" ng-click="exportPlan()">
-            <span class="glyphicon glyphicon-export" aria-hidden="true" ></span>
-        </button>
-<!--         <button style="float: right" type="button" class="btn btn-default" title="Clone Plan" ng-click="">
-            <span class="glyphicon glyphicon-export" aria-hidden="true" ></span>
-        </button>
- -->    
-    <h4>
-<!--         <span editable-bsdate="plan.plan_d" 
-                        onshow="openpicker()"
-                onhide="closepicker()"
-                e-is-open="picker.opened" e-form="textBtnForm" e-datepicker-popup="MM/dd/yyyy"> -->
-        {{plan.plan_d}}
-<!--         </span>
-        <button class="btn btn-default" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
-            edit
-        </button> -->
-    </h4>
-    <h4 style="display:inline">
-        <span onbeforesave="updatePlan({grade_id: $data})" e-form="grade" editable-select="plan.grade_id" onshow="loadGrades()" e-ng-options="grade.id as grade.grade for grade in grades" e-required>
-        Grade {{plan.grade}}
-        </span>
-    </h4>
-        <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="grade.$show()" ng-hide="grade.$visible">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-        </button>
+<div ng-hide="plan.id">
+    <div style="margin-top:30px">
+        <h4>Sorry, that plan doesn't exist</h4>
+    </div>
 </div>
-<hr>
-<div>
-    <h5>Knowledge & Skills</h5>
-    <div class="section-content-div">
-        <strong>{{plan.topic}}</strong>: {{plan.ks}}
+<div ng-show="plan.id">
+    <div style="margin-top:30px">
+        <h3 style="display:inline">
+            <span onbeforesave="updatePlan({tek_summary_id: $data})" e-form="tek" editable-select="plan.tek_summary_id" onshow="loadTeks()" e-ng-options="tek.id as tek.label group by tek.grade for tek in teks" e-required>
+            TEK {{plan.tek_label}}
+            </span>
+        </h3>
+            <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="tek.$show()" ng-hide="tek.$visible">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+            </button>
+
+            <button style="float: right" type="button" class="btn btn-default" tooltip-placement="right" tooltip="Delete this plan" ng-click="deleteConfirm()">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
+            </button>
+            <!-- <a href="#" tooltip-placement="left" tooltip="Export as PDF" style="float:right" class="btn btn-default" role="button"><span class="glyphicon glyphicon-export" aria-hidden="true" ></span></a> -->
+            <button style="float: right" type="button" class="btn btn-default" tooltip-placement="left" tooltip="Export as PDF" ng-click="exportPlan()">
+                <span class="glyphicon glyphicon-export" aria-hidden="true" ></span>
+            </button>
+    <!--         <button style="float: right" type="button" class="btn btn-default" title="Clone Plan" ng-click="">
+                <span class="glyphicon glyphicon-export" aria-hidden="true" ></span>
+            </button>
+     -->    
+        <h4>
+    <!--         <span editable-bsdate="plan.plan_d" 
+                            onshow="openpicker()"
+                    onhide="closepicker()"
+                    e-is-open="picker.opened" e-form="textBtnForm" e-datepicker-popup="MM/dd/yyyy"> -->
+            {{plan.plan_d}}
+    <!--         </span>
+            <button class="btn btn-default" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+                edit
+            </button> -->
+        </h4>
+        <h4 style="display:inline">
+            <span onbeforesave="updatePlan({grade_id: $data})" e-form="grade" editable-select="plan.grade_id" onshow="loadGrades()" e-ng-options="grade.id as grade.grade for grade in grades" e-required>
+            Grade {{plan.grade}}
+            </span>
+        </h4>
+            <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="grade.$show()" ng-hide="grade.$visible">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+            </button>
     </div>
     <hr>
-</div>
-<div>
-    <h5>Student Expectations</h5>
-    <div class="section-content-div">
-        {{plan.se | capitalize}}
+    <div>
+        <h5>Knowledge & Skills</h5>
+        <div class="section-content-div">
+            <strong>{{plan.topic}}</strong>: {{plan.ks}}
+        </div>
+        <hr>
     </div>
-    <hr>
-</div>
-
-<!-- PROCESSING_STANDARD -->
-<div>
-    <div class="section-head">
-        <h5 style="display:inline">Processing Standard</h5>
-        <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="proc_standard.$show()" ng-hide="proc_standard.$visible">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-        </button>
+    <div>
+        <h5>Student Expectations</h5>
+        <div class="section-content-div">
+            {{plan.se | capitalize}}
+        </div>
+        <hr>
     </div>
-    <div class="section-content-div">
-        <span onbeforesave="updatePlan({proc_standard_id: $data})" e-style="width:580px" e-form="proc_standard" editable-select="plan.ps_id" onshow="loadProcStandards()" e-ng-options="ps.id as ps.alpha + ' - ' + ps.content for ps in procStandards" e-required>
-            {{plan.ps_alpha}} - {{plan.ps | capitalize}}
-        </span>
+
+    <!-- PROCESSING_STANDARD -->
+    <div>
+        <div class="section-head">
+            <h5 style="display:inline">Processing Standard</h5>
+            <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="proc_standard.$show()" ng-hide="proc_standard.$visible">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+            </button>
+        </div>
+        <div class="section-content-div">
+            <span onbeforesave="updatePlan({proc_standard_id: $data})" e-style="width:580px" e-form="proc_standard" editable-select="plan.ps_id" onshow="loadProcStandards()" e-ng-options="ps.id as ps.alpha + ' - ' + ps.content for ps in procStandards" e-required>
+                {{plan.ps_alpha}} - {{plan.ps | capitalize}}
+            </span>
+        </div>
+        <hr>
     </div>
-    <hr>
-</div>
 
-<!-- VERBS -->
-<div>
-    <div class="section-head">
-        <h5 style="display:inline">Verbs</h5>
-        <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="verb.$show()" ng-hide="verb.$visible">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-        </button>
+    <!-- VERBS -->
+    <div>
+        <div class="section-head">
+            <h5 style="display:inline">Verbs</h5>
+            <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="verb.$show()" ng-hide="verb.$visible">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+            </button>
+        </div>
+        <div class="verb-content-div">
+            <span onbeforesave="updateVerbs($data)" e-size=10 e-style="width:580px" e-form="verb" editable-select="planVerbIds" onshow="loadVerbs()" e-ng-options="verb.id as verb.verb for verb in allverbs" e-multiple>
+                {{ selectedVerbs }}
+            </span>
+       </div>
+        <hr>
     </div>
-    <div class="verb-content-div">
-        <span onbeforesave="updateVerbs($data)" e-size=10 e-style="width:580px" e-form="verb" editable-select="planVerbIds" onshow="loadVerbs()" e-ng-options="verb.id as verb.verb for verb in allverbs" e-multiple>
-            {{ selectedVerbs }}
-        </span>
-   </div>
-    <hr>
-</div>
 
-<!-- SECTIONS -->
-<div class="" ng-repeat="section in sections">
-    <div class="section-head">
-        <h5 style="display:inline">
-    {{section.type_label}}
-        </h5>
-        <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="form.$show()" ng-hide="form.$visible">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-        </button>
+    <!-- SECTIONS -->
+    <div class="" ng-repeat="section in sections">
+        <div class="section-head">
+            <h5 style="display:inline">
+        {{section.type_label}}
+            </h5>
+            <button style="float: right; font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="form.$show()" ng-hide="form.$visible">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+            </button>
+        </div>
+        <div class="section-content-div">
+            <span onbeforesave="updateSection(section.id, $data)" class="plan-section-static" e-form="form" editable-textarea="section.content" e-rows="7" e-cols="80" ng-bind-html="section.content | lineBreak"></span>
+        </div>
+        <hr>
     </div>
-    <div class="section-content-div">
-        <span onbeforesave="updateSection(section.id, $data)" class="plan-section-static" e-form="form" editable-textarea="section.content" e-rows="7" e-cols="80" ng-bind-html="section.content | lineBreak"></span>
-    </div>
-    <hr>
-</div>
 
-<!-- RESOURCES -->
-<div ng-show="resources.length">
-    <h5>Activities & Structures</h5>
-    <div class="resource-content-div" ng-repeat="resource in resources">
+    <!-- RESOURCES -->
+    <div ng-show="resources.length">
+        <h5>Activities & Structures</h5>
+        <div class="resource-content-div" ng-repeat="resource in resources">
 
-        <form editable-form name="editableForm" onbeforesave="updateResource(resource.id, $data)">
-        <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true" >
-        </button>
-        {{resource.type_label}}
+            <form editable-form name="editableForm" onbeforesave="updateResource(resource.id, $data)">
+            <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" >
+            </button>
+            {{resource.type_label}}
 
-        <div>
-            <div class="resource-content-li">
-                <span e-name="complete" e-title="Complete?" editable-checkbox="resource.complete">
-                    {{resource.complete && 'Complete: Yes' || 'Complete: No'}}
-                </span>
-            </div>
+            <div>
+                <div class="resource-content-li">
+                    <span e-name="complete" e-title="Complete?" editable-checkbox="resource.complete">
+                        {{resource.complete && 'Complete: Yes' || 'Complete: No'}}
+                    </span>
+                </div>
 
-            <div class="resource-content-li">
-                <span e-name="notes" editable-text="resource.notes" e-style="width: 300%">{{resource.notes}}</span>
-            </div>
+                <div class="resource-content-li">
+                    <span e-name="notes" editable-text="resource.notes" e-style="width: 300%">{{resource.notes}}</span>
+                </div>
 
 
-            <div class="resource-content-li">
-                <span>
-                <a onbeforesave="updateURLcheck(resource.id, $data)" e-name="url" e-type="text" e-style="width:300%" editable-text="resource.url" e-placeholder="Link" e-ng-required="false" href="{{resource.url}}">{{resource.url}}</a>
-                </span>
-            </div>
+                <div class="resource-content-li">
+                    <span>
+                    <a onbeforesave="updateURLcheck(resource.id, $data)" e-name="url" e-type="text" e-style="width:300%" editable-text="resource.url" e-placeholder="Link" e-ng-required="false" href="{{resource.url}}">{{resource.url}}</a>
+                    </span>
+                </div>
 
-            <!-- buttons to submit / cancel form -->
-            <div class="buttons">
-              <span ng-show="editableForm.$visible">
-                <button type="submit" class="btn btn-primary btn-xs" ng-disabled="editableForm.$waiting">
-                  Save
-                </button>
-                <button type="button" class="btn btn-default btn-xs" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
-                  Cancel
-                </button>
-              </span>
+                <!-- buttons to submit / cancel form -->
+                <div class="buttons">
+                  <span ng-show="editableForm.$visible">
+                    <button type="submit" class="btn btn-primary btn-xs" ng-disabled="editableForm.$waiting">
+                      Save
+                    </button>
+                    <button type="button" class="btn btn-default btn-xs" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+                      Cancel
+                    </button>
+                  </span>
+                </div>
+
             </div>
 
         </div>
-
     </div>
 </div>
