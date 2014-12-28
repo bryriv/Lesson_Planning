@@ -427,6 +427,7 @@ insert into enum_section_type (type, label, sequence) values ('input_key', 'Inpu
 insert into enum_section_type (type, label, sequence) values ('common_err', 'Common Errors', 6);
 insert into enum_section_type (type, label, sequence) values ('closure', 'Closure', 7);
 insert into enum_section_type (type, label, sequence) values ('boot_camp', 'Boot Camp', 8);
+insert into enum_section_type (type, label, sequence) values ('notes', 'Notes', 9);
 
 -- enum_resource_type data
 insert into enum_resource_type (type, label, sequence) values ('model', 'Model', 1);

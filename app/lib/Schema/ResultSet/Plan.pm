@@ -109,7 +109,6 @@ sub export {
     }
     $self->{plan_data} = $plan_data;
 
-    print STDERR Dumper $plan_data;
     my $pdf_file = $self->generate_pdf_filename();
 
     my $tt = Template::Latex->new({
@@ -130,6 +129,22 @@ sub build_cleaners {
         my $reg = qr/$char/;
         $self->{map_regex}{$reg} = $self->{template_conf}{char_map}{$char};
     }
+}
+
+sub init_latex_filters {
+    my $self = shift;
+
+}
+
+sub filter_escape_chars {
+    my $self = shift;
+    my $regex = qr/([$self->{template_conf}{chars_to_escape}])/;
+    
+}
+
+sub filter_map_chars {
+    my $self = shift;
+
 }
 
 sub latex_chars {

@@ -124,6 +124,22 @@
         </div>
         <div class="row">
             <div class="form-group col-md-12">
+                <label for="boot_camp">Boot Camp</label>
+                <div>
+                    <textarea ng-model="plan.sections.boot_camp" name="boot_camp" class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="notes">Notes</label>
+                <div>
+                    <textarea ng-model="plan.sections.notes" name="notes" class='form-control' rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
                 <label for="activities_struct">Activties & Structures</label>
                 <div class="checkbox">
                     <label><input type="checkbox" value="" ng-model="plan.resources.model.complete">Model</label>
@@ -215,14 +231,6 @@
                 </div>
                 <div class="activities-div activities-spacing">
                     <input type="text" class='form-control input-sm' placeholder="Homework Key notes" name="homework_key_note" ng-model="plan.resources.homework_key.notes">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label for="boot_camp">Boot Camp</label>
-                <div>
-                    <textarea ng-model="plan.sections.boot_camp" name="boot_camp" class='form-control' rows="5"></textarea>
                 </div>
             </div>
         </div>
