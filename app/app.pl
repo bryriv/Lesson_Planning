@@ -172,6 +172,7 @@ put '/plans/:id/resources/:resource_id' => sub {
 
     my $update_success = 1;
     for my $key (keys %$hash) {
+        next unless $hash->{key};
         if ($hash->{$key} ne $update->get_column($key)) {
             $update_success = 0;
             last;

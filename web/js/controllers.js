@@ -17,18 +17,16 @@ lpmtControllers.controller('PlansCtrl', ['$scope', '$filter', 'Plans',
     }
 ]);
 
-lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', '$modal', '$location', '$window', 'Message', 
+lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routeParams', '$modal', '$location', '$window', '$filter', 'Message', 
                                                 'Plans', 'PlanVerbs', 'PlanResources', 'PlanSections', 'Verbs', 'PS', 'Teks', 'Grades',
-    function($scope, $timeout, $routeParams, $modal, $location, $window, Message, Plans, PlanVerbs, 
+    function($scope, $timeout, $routeParams, $modal, $location, $window, $filter, Message, Plans, PlanVerbs, 
                     PlanResources, PlanSections, Verbs, PS, Teks, Grades) {
         $scope.plan = Plans.get({planId: $routeParams.planId, query_type: 'complete'}, function(plan) {
-            // $scope.plan.plan_d = "2014-12-25";
             if (plan.id === undefined) {
                 return;
             }
             $scope.verbs = PlanVerbs.query({planId: $routeParams.planId}, function(verbs) {
                 $scope.selectedVerbs = $scope.showVerbs(verbs);
-                $scope.startingVerbs = [1, 2, 3];
             });
             $scope.sections = PlanSections.query({planId: $routeParams.planId}, function(sections) {
                 sections.forEach(function(section) {
@@ -109,6 +107,9 @@ lpmtControllers.controller('PlanDetailsCtrl', ['$scope', '$timeout', '$routePara
             });
         };
         $scope.updatePlan = function(data) {
+            if (data.plan_d) {
+                data.plan_d = $filter('date')(data.plan_d, 'yyyy-MM-dd');
+            }
             var update = Plans.update({planId: $scope.plan.id}, data, function(saveResponse) {
                 if (saveResponse.message === 'OK') {
                     $scope.plan = saveResponse.plan;

@@ -26,15 +26,15 @@
             </button>
      -->    
         <h4>
-    <!--         <span editable-bsdate="plan.plan_d" 
+            <span editable-bsdate="plan.plan_d" 
                             onshow="openpicker()"
                     onhide="closepicker()"
-                    e-is-open="picker.opened" e-form="textBtnForm" e-datepicker-popup="MM/dd/yyyy"> -->
+                    e-is-open="picker.opened" e-form="plan_d" e-datepicker-popup="yyyy-MM-dd" onbeforesave="updatePlan({plan_d: $data})">
             {{plan.plan_d}}
-    <!--         </span>
-            <button class="btn btn-default" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
-                edit
-            </button> -->
+            </span>
+            <button style="font-size:10px" class="btn btn-default btn-xs" ng-click="plan_d.$show()" ng-hide="plan_d.$visible">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+            </button>
         </h4>
         <h4 style="display:inline">
             <span onbeforesave="updatePlan({grade_id: $data})" e-form="grade" editable-select="plan.grade_id" onshow="loadGrades()" e-ng-options="grade.id as grade.grade for grade in grades" e-required>
