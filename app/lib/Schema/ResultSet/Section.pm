@@ -29,4 +29,22 @@ sub get_plan_sections {
 }
 
 
+sub process_content {
+    my ($self, $data) = @_;
+    my @sections;
+    for my $section (@{$data}) {
+        $section->{content} = $self->url_parse($section->{content}) if $section->{content};
+        push @sections, $section;
+    }
+    return \@sections;
+}
+
+
+sub url_parse {
+    my ($self, $content) = @_;
+    $content =~ s/\<a href=[\'\"]([^\'\"]*)[\'\"]\>([^\<]*)\<\/a\>/\\href{$1}{$2}/g;
+    return $content;
+}
+
+
 1;

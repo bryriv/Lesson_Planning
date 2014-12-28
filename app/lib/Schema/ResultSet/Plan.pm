@@ -89,6 +89,7 @@ sub export {
     my $plan_data = $self->plan_complete($args->{id});
     $plan_data->{verbs} = $args->{related_rs}{verb_plan_map}->get_plan_verbs($args->{id});
     $plan_data->{sections} = $args->{related_rs}{section}->get_plan_sections($args->{id});
+    $plan_data->{sections} = $args->{related_rs}{section}->process_content($plan_data->{sections});
     $plan_data->{resources} = $args->{related_rs}{resource}->get_plan_resources($args->{id});
 
     # separate first 2 sections for the first page

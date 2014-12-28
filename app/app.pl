@@ -130,21 +130,9 @@ get '/plans/:id/sections' => sub {
     my $self = shift;
     my $plan_id = $self->stash('id');
     # select * from section s join enum_section_type e on e.id = s.enum_section_type_id where s.plan_id = 41;
-    my @data = $self->db->resultset('Section')->search(
-        {   'plan_id' => $plan_id   },
-        {
-            join => 'enum_section_type',
-            '+select' => ['enum_section_type.type, enum_section_type.label, enum_section_type.sequence'],
-            '+as' => ['type', 'type_label', 'type_sequence'],
-            order_by => {-asc => 'enum_section_type.sequence'}
-        }
-    )->all;
-
-    $self->respond_to(
-        any  => {json => [
-            map { {$_->get_columns} } @data
-        ]},
-    );
+    my $section_rs = $self->db->resultset('Section');
+    my @data = $section_rs->get_plan_sections($plan_id);
+    $self->respond_to( any => { json => @data } );
 };
 
 put '/plans/:id/sections/:section_id' => sub {
