@@ -42,7 +42,8 @@ sub process_content {
 
 sub url_parse {
     my ($self, $content) = @_;
-    $content =~ s/\<a href=[\'\"]([^\'\"]*)[\'\"]\>([^\<]*)\<\/a\>/\\href{$1}{$2}/g;
+    $content =~ s/target="_blank"//g;
+    $content =~ s/\<a\s+href=[\'\"]([^\'\"]*)[\'\"]\>([^\<]*)\<\/a\>/\\href{$1}{$2}/g;
     return $content;
 }
 
