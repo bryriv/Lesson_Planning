@@ -72,25 +72,38 @@
             <!-- <p><div id='index-alert' class="alert-{{type}}" role="alert">{{message}}</div></p> -->
             <alert ng-repeat="alert in alerts" type={{alert.type}}  close="alert.close()">{{alert.msg}}</alert>
           </div>
-          <div class="sidebar-module sidebar-module-inset">
-            <h4>Useful Stuff</h4>
-            <p>We can put stuff here that you might find helpful. I'll see about a calendar or maybe some links</p>
+          <div class="sidebar-module">
+            <h4>Calendar</h4>
+            <div style="display:inline-block; min-height:270px;">
+                <datepicker ng-model="dt" min-date="minDate" show-weeks="false" starting-day=1 class="well well-sm"></datepicker>
+            </div>
+        </div>
+          <div class="sidebar-module">
+            <h4>Resources</h4>
+            <p>
+              <ul>
+                <li><a target="_blank" href="https://www.dropbox.com/s/fx7s3lqbnlzk0np/AssessCurr-MathG06-2014-f.pdf?dl=0">6th Grade Math TEKS</a></li>
+                <li><a target="_blank" href="https://www.dropbox.com/s/yuydiqgqnqeov08/AssessCurr-MathG07-2014-f%20%281%29.pdf?dl=0">7th Grade Math TEKS</a></li>
+                <li><a target="_blank" href="https://www.dropbox.com/s/r6vkmy0emsdvd88/TEKS_Trees_NEW_ALL.pdf?dl=0">TEKS Tree</a></li>
+                <li><a target="_blank" href="https://www.dropbox.com/s/gu1jy5p2waj9h69/6th%20Academic%20Quad%20Sheet.docx?dl=0">6th Academic Quad Sheet 2014-2015</a></li>
+                <li><a target="_blank" href="https://www.dropbox.com/s/bf1yksjqhibwr2l/6th%20PAP%20Quad%20Sheet.docx?dl=0">6th Pre AP Quad Sheet 2014-2015</a></li>
+              </ul>
+              <ul>
+                <li><a target="_blank" href="http://www.pinterest.com/">Pinterest</a></li>
+                <li><a target="_blank" href="http://www.brainpop.com">BrainPOP</a></li>
+              </ul>
+            </p>
+          </div>
+          <div class="sidebar-module">
+            <h4>Tips</h4>
+            <code>
+&lt;a target="_blank" href="URL"&gt;LINK&lt;/a&gt;
+            </code>
           </div>
           <div class="sidebar-module">
             <h4>Archives</h4>
             <ol class="list-unstyled">
-              <li><a href="#">March 2014</a></li>
-              <li><a href="#">February 2014</a></li>
-              <li><a href="#">January 2014</a></li>
-              <li><a href="#">December 2013</a></li>
-              <li><a href="#">November 2013</a></li>
-              <li><a href="#">October 2013</a></li>
-              <li><a href="#">September 2013</a></li>
-              <li><a href="#">August 2013</a></li>
-              <li><a href="#">July 2013</a></li>
-              <li><a href="#">June 2013</a></li>
-              <li><a href="#">May 2013</a></li>
-              <li><a href="#">April 2013</a></li>
+              <li><a href="#">January 2015</a></li>
             </ol>
           </div>
           <div class="sidebar-module" ng-controller="VerbNewCtrl">
