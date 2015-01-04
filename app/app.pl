@@ -6,7 +6,7 @@ use lib 'lib';
 use Schema;
 
 my $conf = plugin JSONConfig => { file => './app.conf' };
-plugin 'tt_renderer';
+# plugin 'tt_renderer';
 
 use Data::Dumper;
 
