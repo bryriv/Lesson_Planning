@@ -439,6 +439,7 @@ insert into enum_resource_type (type, label, sequence) values ('flipchart', 'Fli
 insert into enum_resource_type (type, label, sequence) values ('guided_notes', 'Guided Notes', 7);
 insert into enum_resource_type (type, label, sequence) values ('homework', 'Homework', 8);
 insert into enum_resource_type (type, label, sequence) values ('homework_key', 'Homework Key', 9);
+insert into enum_resource_type (type, label, sequence) values ('lesson_worked', 'Lesson Worked', 10);
 
 -- verb data
 insert into verb (verb) values ('Classify');
