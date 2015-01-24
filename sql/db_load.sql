@@ -416,6 +416,15 @@ create table section (
     constraint FK_section_enum_section_type foreign key (enum_section_type_id) references enum_section_type (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+-- links
+create table link (
+    id int(10) unsigned not null auto_increment,
+    url varchar(255) not null,
+    link varchar(60) not null,
+    sequence int(5) unsigned not null,
+    primary key (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 -- data load
 
 -- enum_section_type data
@@ -477,4 +486,39 @@ insert into proc_standard (grade, alpha, content) values (6, 'G', 'display, expl
 -- grade
 insert into grade (grade) values ('6th Academic');
 insert into grade (grade) values ('6th Pre AP');
+
+-- link
+insert into link (url, link, sequence) 
+    values (
+        'https://www.dropbox.com/s/fx7s3lqbnlzk0np/AssessCurr-MathG06-2014-f.pdf?dl=0',
+        '6th Grade Math TEKS', 
+        1
+);
+insert into link (url, link, sequence) 
+    values (
+        'https://www.dropbox.com/s/yuydiqgqnqeov08/AssessCurr-MathG07-2014-f%20%281%29.pdf?dl=0',
+        '7th Grade Math TEKS', 
+        2
+);
+insert into link (url, link, sequence) 
+    values (
+        'https://www.dropbox.com/s/r6vkmy0emsdvd88/TEKS_Trees_NEW_ALL.pdf?dl=0',
+        'TEKS Tree', 
+        3
+);
+insert into link (url, link, sequence) 
+    values (
+        'http://www.pinterest.com/',
+        'Pinterest', 
+        4
+);
+insert into link (url, link, sequence) 
+    values (
+        'http://www.brainpop.com/',
+        'BrainPOP', 
+        5
+);
+
+
+
 

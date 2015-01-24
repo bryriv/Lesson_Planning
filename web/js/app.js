@@ -26,6 +26,10 @@ lpmtApp.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'tpl/plan-new.html',
                 controller: 'PlanNewCtrl'
             }).
+            when('/links', {
+                templateUrl: 'tpl/links.html',
+                controller: 'LinkCtrl'
+            }).
             when('/export/:planId', {
                 controller: 'ExportPlanCtrl'
             }).

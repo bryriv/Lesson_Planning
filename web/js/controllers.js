@@ -286,3 +286,20 @@ lpmtControllers.controller('MessageCtrl', ['$scope', '$timeout', 'Message',
         });
     }
 ]);
+
+lpmtControllers.controller('LinkCtrl', ['$scope', '$filter', 'Links',
+    function($scope, $filter, Links) {
+
+    }
+]);
+
+lpmtControllers.controller('LinkListCtrl', ['$scope', 'Links',
+    function($scope, Links) {
+        var links = Links.query({}, function(data) {
+            $scope.links = data;
+        });
+    }
+]);
+
+
+

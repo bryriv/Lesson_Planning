@@ -11,7 +11,7 @@ var lpmtServices = angular.module('lpmtServices', ['ngResource']);
 
 lpmtServices.factory('Plans', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/plans/:planId', {}, {
+        return $resource('/api/plans/:planId', {}, {
             query: { method: 'GET', isArray: false},
             create: { method: 'POST'},
             update: { method: 'PUT'},
@@ -23,19 +23,19 @@ lpmtServices.factory('Plans', ['$resource',
 
 lpmtServices.factory('Teks', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/teks/:tekId');
+        return $resource('/api/teks/:tekId');
     }
 ]);
 
 lpmtServices.factory('PS', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/ps/:psId');
+        return $resource('/api/ps/:psId');
     }
 ]);
 
 lpmtServices.factory('Verbs', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/verbs/:verbId', {}, {
+        return $resource('/api/verbs/:verbId', {}, {
             query: { method: 'GET', isArray: true},
             create: { method: 'POST'}
         });
@@ -44,7 +44,7 @@ lpmtServices.factory('Verbs', ['$resource',
 
 lpmtServices.factory('PlanVerbs', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/plans/:planId/verbs', {}, {
+        return $resource('/api/plans/:planId/verbs', {}, {
             query: { method: 'GET', isArray: true},
             update: { method: 'PUT'}
         });
@@ -53,7 +53,7 @@ lpmtServices.factory('PlanVerbs', ['$resource',
 
 lpmtServices.factory('PlanResources', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/plans/:planId/resources/:resourceId', {}, {
+        return $resource('/api/plans/:planId/resources/:resourceId', {}, {
             query: { method: 'GET', isArray: true},
             update: { method: 'PUT'}
         });
@@ -63,7 +63,7 @@ lpmtServices.factory('PlanResources', ['$resource',
 
 lpmtServices.factory('PlanSections', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/plans/:planId/sections/:sectionId', {}, {
+        return $resource('/api/plans/:planId/sections/:sectionId', {}, {
             query: { method: 'GET', isArray: true},
             update: { method: 'PUT'}
         });
@@ -72,7 +72,7 @@ lpmtServices.factory('PlanSections', ['$resource',
 
 lpmtServices.factory('PlanSectionTypes', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/section_types', {}, {
+        return $resource('/api/section_types', {}, {
             query: { method: 'GET', isArray: true},
         });
     }
@@ -80,7 +80,7 @@ lpmtServices.factory('PlanSectionTypes', ['$resource',
 
 lpmtServices.factory('PlanResourceTypes', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/resource_types', {}, {
+        return $resource('/api/resource_types', {}, {
             query: { method: 'GET', isArray: true},
         });
     }
@@ -88,8 +88,19 @@ lpmtServices.factory('PlanResourceTypes', ['$resource',
 
 lpmtServices.factory('Grades', ['$resource',
     function($resource) {
-        return $resource('http://192.168.1.167/api/grades', {}, {
+        return $resource('/api/grades', {}, {
             query: { method: 'GET', isArray: true},
+        });
+    }
+]);
+
+lpmtServices.factory('Links', ['$resource',
+    function($resource) {
+        return $resource('/api/links/:linkId', {}, {
+            query: { method: 'GET', isArray: true},
+            create: { method: 'POST'},
+            update: { method: 'PUT'},
+            deleteLink: { method: 'DELETE'}
         });
     }
 ]);
