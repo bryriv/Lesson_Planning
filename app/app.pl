@@ -365,6 +365,19 @@ get '/grades' => sub {
     );
 };
 
+get '/links' => sub {
+    my $self = shift;
+    my @links = $self->db->resultset('Link')->search(
+        {},
+        {order_by => {-asc => 'sequence'}}
+    )->all();
+    $self->respond_to(
+        any  => {json => [
+            map { {$_->get_columns} } @links
+        ]},
+    );
+};
+
 # helpers
 helper db => sub {
   my $schema = Schema->connect($conf->{db}{dsn}, $conf->{db}{dbuser}, $conf->{db}{dbpwd});
