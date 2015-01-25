@@ -195,6 +195,7 @@ lpmtControllers.controller('PlanNewCtrl', ['$scope', '$location', '$filter', '$r
             payload.grade_id = $scope.plan.grade.id;
             payload.proc_standard_id = $scope.plan.ps.id;
             payload.create_d = $filter('date')(new Date(), 'yyyy-MM-dd');
+            payload.title = $scope.plan.title;
 
             // extra data
             payload.sections = $scope.plan.sections;
@@ -287,9 +288,11 @@ lpmtControllers.controller('MessageCtrl', ['$scope', '$timeout', 'Message',
     }
 ]);
 
-lpmtControllers.controller('LinkCtrl', ['$scope', '$filter', 'Links',
-    function($scope, $filter, Links) {
-
+lpmtControllers.controller('LinkCtrl', ['$scope', 'Links',
+    function($scope, Links) {
+        var links = Links.query({}, function(data) {
+            $scope.links = data;
+        });
     }
 ]);
 

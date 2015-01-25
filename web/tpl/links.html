@@ -1,0 +1,19 @@
+<div style="margin-top:30px">
+    <table style="width:auto;" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Link</th>
+                <th>URL</th>
+            </tr>
+        </thead>
+        <tbody ui:sortable ng-model="links">
+            <tr ng-repeat="link in links" class="item" style="cursor: move;">
+                <td>{{$index}}</td>
+                <td>{{link.link}}</td>
+                <td>{{link.url}}</td>
+            </tr>
+        </tbody>
+    </table>
+        <hr>
+</div>

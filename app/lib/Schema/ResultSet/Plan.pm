@@ -117,7 +117,7 @@ sub export {
         OUTPUT_PATH    => $self->{template_conf}{output},
         PDFLATEX_PATH   => '/usr/bin/pdflatex'
     });
-    my $pdf = $tt->process('plan_tex.tt2', $plan_data, '', binmode => 1) || print STDERR $tt->error();;
+    my $pdf = $tt->process('plan_tex.tt2', $plan_data, '', binmode => 1) || print STDERR $tt->error();
 
     move($self->{template_conf}{output}.'/out.pdf', $self->{template_conf}{output}."/$pdf_file");
     return {pdf_link => '/download/'.$pdf_file};

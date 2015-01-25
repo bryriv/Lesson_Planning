@@ -13,6 +13,8 @@ drop table if exists tek_summary;
 drop table if exists tek;
 drop table if exists tek_parent;
 drop table if exists grade;
+drop table if exists link;
+
 
 -- tek parent
 create table tek_parent (
@@ -97,7 +99,7 @@ insert into tek (tek_parent_id, alpha, standard, content) values
 insert into tek (tek_parent_id, alpha, standard, content) values 
     (1, 'D', 'R', 'order a set of rational numbers arising from mathematical and real- world contexts');
 insert into tek (tek_parent_id, alpha, standard, content) values 
-    (1, 'E', 'S', 'extend representations for division to include fraction notation such as a/b represents the same number as a ÷ b where b ≠ 0');
+    (1, 'E', 'S', 'extend representations for division to include fraction notation such as a/b represents the same number as a divided by b where b ≠ 0');
 insert into tek (tek_parent_id, alpha, standard, content) values 
     (3, 'C', 'S', 'give examples of ratios as multiplicative comparisons of two quantities describing the same attribute');
 insert into tek (tek_parent_id, alpha, standard, content) values 
@@ -342,6 +344,7 @@ create table plan (
     tek_summary_id int(10) unsigned not null,
     proc_standard_id int(10) unsigned not null,
     create_d date not null,
+    title varchar(100),
     primary key (id),
     key FK_plan_grade (grade_id),
     key FK_plan_tek_summary (tek_summary_id),
@@ -492,31 +495,31 @@ insert into link (url, link, sequence)
     values (
         'https://www.dropbox.com/s/fx7s3lqbnlzk0np/AssessCurr-MathG06-2014-f.pdf?dl=0',
         '6th Grade Math TEKS', 
-        1
+        0
 );
 insert into link (url, link, sequence) 
     values (
         'https://www.dropbox.com/s/yuydiqgqnqeov08/AssessCurr-MathG07-2014-f%20%281%29.pdf?dl=0',
         '7th Grade Math TEKS', 
-        2
+        1
 );
 insert into link (url, link, sequence) 
     values (
         'https://www.dropbox.com/s/r6vkmy0emsdvd88/TEKS_Trees_NEW_ALL.pdf?dl=0',
         'TEKS Tree', 
-        3
+        2
 );
 insert into link (url, link, sequence) 
     values (
         'http://www.pinterest.com/',
         'Pinterest', 
-        4
+        3
 );
 insert into link (url, link, sequence) 
     values (
         'http://www.brainpop.com/',
         'BrainPOP', 
-        5
+        4
 );
 
 

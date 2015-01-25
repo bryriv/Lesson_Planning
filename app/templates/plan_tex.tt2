@@ -34,6 +34,11 @@
 \begin{flushleft}
 \textbf{{\Large{TEK [% tek_label %]}}}
 \end{flushleft}
+[% IF title %]
+\begin{flushleft}
+\textbf{{\large{[% title %]}}}
+\end{flushleft}
+[% END %]
 \begin{flushleft}
 \textbf{{\large{[% plan_d %]}}}
 \end{flushleft}

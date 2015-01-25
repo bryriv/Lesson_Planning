@@ -21,6 +21,12 @@
         </div>
         <div class="row">
             <div class="form-group col-md-12">
+                <label for="grade">Title</label>
+                <input type="text" class='form-control input-sm' placeholder="Title" name="title" ng-model="plan.title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
                 <label for="tek">TEK</label>
                     <select ng-required="true" class="form-control" ng-model="plan.tek" ng-options="tek as tek.label group by tek.grade for tek in teks">
                         <option value="">-- TEK - Required --</option>

@@ -36,14 +36,23 @@
                 <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
             </button>
         </h4>
-        <h4 style="display:inline">
+        <h4> Title: 
+            <span onbeforesave="updatePlan({title: $data})" e-form="title" editable-text="plan.title">
+            {{plan.title}}
+            </span>
+            <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="title.$show()" ng-hide="title.$visible">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+            </button>
+        </h4>
+        
+        <h4>
             <span onbeforesave="updatePlan({grade_id: $data})" e-form="grade" editable-select="plan.grade_id" onshow="loadGrades()" e-ng-options="grade.id as grade.grade for grade in grades" e-required>
             Grade {{plan.grade}}
             </span>
-        </h4>
             <button style="font-size:10px" type="button" class="btn btn-default btn-xs" ng-click="grade.$show()" ng-hide="grade.$visible">
                 <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
             </button>
+        </h4>
     </div>
     <hr>
     <div>

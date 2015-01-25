@@ -17,6 +17,7 @@
             <thead>
                 <tr>
                     <th>TEK</th>
+                    <th>Title</th>
                     <th>Grade</th>
                     <th>Plan Date</th>
                     <th>Created</th>
@@ -25,6 +26,7 @@
             <tbody>
             <tr dir-paginate="plan in plans_preap | filter:queryP | itemsPerPage: 10" pagination-id="preap">
                 <td><a href="#/plans/{{plan.id}}">{{plan.tek_label}}</a></td>
+                <td>{{plan.title}}</td>
                 <td>{{plan.grade}}</td>
                 <td>{{plan.plan_d | date: 'MMM-dd yyyy'}}</td>
                 <td>{{plan.create_d | date: 'MMM-dd yyyy'}}</td>
@@ -55,6 +57,7 @@
             <thead>
                 <tr>
                     <th>TEK</th>
+                    <th>Title</th>
                     <th>Grade</th>
                     <th>Plan Date</th>
                     <th>Created</th>
@@ -63,6 +66,7 @@
             <tbody>
             <tr dir-paginate="plan in plans_academic | filter:queryA | itemsPerPage: 10" pagination-id="academic">
                 <td><a href="#/plans/{{plan.id}}">{{plan.tek_label}}</a></td>
+                <td>{{plan.title}}</td>
                 <td>{{plan.grade}}</td>
                 <td>{{plan.plan_d | date: 'MMM-dd yyyy'}}</td>
                 <td>{{plan.create_d | date: 'MMM-dd yyyy'}}</td>
