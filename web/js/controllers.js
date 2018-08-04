@@ -293,6 +293,10 @@ lpmtControllers.controller('LinkCtrl', ['$scope', 'Links',
         var links = Links.query({}, function(data) {
             $scope.links = data;
         });
+
+        $scope.addNewLink = function() {
+            console.log('adding new link');
+        }
     }
 ]);
 
